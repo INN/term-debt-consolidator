@@ -1,0 +1,13 @@
+.tdc-preamble {
+  max-width: 700px;
+}
+
+.tdc-preamble p {
+  font-size: 16px;
+}
+
+#tdc-suggestions .spinner {
+  float: none;
+  position: relative;
+  top: -2px;
+}
