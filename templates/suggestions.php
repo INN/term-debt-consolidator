@@ -14,6 +14,7 @@
 	</form>
 
 	<div id="tdc-suggestions-list"></div>
+	<div id="tdc-pagination-container"></div>
 </div>
 
 <script type="text/template" id="tdc-suggestion-tmpl">
@@ -28,5 +29,14 @@
 			<% } %>
 			</ul>
 		<% }) %>
+	</div>
+</script>
+
+<script type="text/template" id="tdc-pagination-tmpl">
+	<div id="tdc-search-results-pagination">
+		<a href="#" class="disabled prev button button-primary">Previous</a>
+		<a href="#" class="disabled next button button-primary">Next</a>
+		<span class="spinner"></span>
+		<p class="tdc-page-count">Page <span class="tdc-page"></span> of <span class="tdc-total-pages"></span></p>
 	</div>
 </script>

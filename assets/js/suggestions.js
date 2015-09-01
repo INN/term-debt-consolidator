@@ -53,10 +53,13 @@ var TDC = TDC || { suggestions: [] };
                     dataType: 'json',
                     method: 'post',
                     success: function(data) {
-                        self.trigger('suggestionsPopulated', data.suggestions);
+                        self.trigger('suggestionsPopulated', data);
                         self.hideSpinner();
                     }
                 };
+
+            if (self.controller.pagination)
+                self.controller.pagination.showSpinner();
 
             self.showSpinner();
             self.ongoing = $.ajax(opts);
@@ -67,25 +70,93 @@ var TDC = TDC || { suggestions: [] };
     var SuggestionList = BaseView.extend({
         page: 1,
 
+        data: {},
+
         initialize: function(attributes, options) {
             Backbone.View.prototype.initialize.apply(this, arguments);
+
             this.suggestion_form = new SuggestionForm({
                 el: '#tdc-suggestions-request',
                 controller: this
             });
+
             this.suggestion_form.on('suggestionsPopulated', this.render.bind(this));
+
             return this;
         },
 
-        render: function(suggestions) {
+        render: function(data) {
             var self = this;
                 template = _.template($('#tdc-suggestion-tmpl').html());
 
             self.$el.html('');
 
-            _.each(suggestions, function(group, i) {
+            _.each(data.suggestions.groups, function(group, i) {
                 self.$el.append(template({ group: group }));
             });
+
+            if (!this.pagination) {
+                this.pagination = new SuggestionsPagination({
+                    el: '#tdc-pagination-container',
+                    controller: this
+                });
+            }
+            this.data = data;
+            this.pagination.render();
+            return false;
+        }
+    });
+
+    var SuggestionsPagination = BaseView.extend({
+        events: {
+            'click a.next': 'next',
+            'click a.prev': 'prev'
+        },
+
+        render: function () {
+            this.hideSpinner();
+
+            var attrs = (typeof this.controller.data.suggestions == 'undefined')? {} : this.controller.data.suggestions;
+
+            this.$el.html('');
+            this.$el.append(
+                _.template($('#tdc-pagination-tmpl').html(), {})
+            );
+
+            if (typeof attrs.totalPages == 'undefined')
+                return this;
+
+            if (attrs.page <= 1)
+                this.$el.find('.prev').addClass('disabled');
+            else
+                this.$el.find('.prev').removeClass('disabled');
+
+            if (attrs.totalPages > 1)
+                this.$el.find('.next').removeClass('disabled');
+
+            if (attrs.page >= attrs.totalPages)
+                this.$el.find('.next').addClass('disabled');
+
+            this.updateCount();
+        },
+
+        next: function() {
+            this.controller.page = this.controller.page + 1;
+            this.controller.suggestion_form.getSuggestions();
+            return false;
+        },
+
+        prev: function() {
+            this.controller.page = this.controller.page - 1;
+            this.controller.suggestion_form.getSuggestions();
+            return false;
+        },
+
+        updateCount: function() {
+            var attrs = (typeof this.controller.data.suggestions == 'undefined')? {} : this.controller.data.suggestions;
+
+            this.$el.find('.tdc-page').html(attrs.page);
+            this.$el.find('.tdc-total-pages').html(attrs.totalPages);
         }
     });
 

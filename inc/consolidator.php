@@ -61,7 +61,13 @@ class SuggestionsQuery {
 			$groups[] = $similar;
 		}
 
-		return $groups;
+		$results = array(
+			'groups' => $groups,
+			'page' => $page,
+			'totalPages' => ceil(count($this->all_terms) / $this->options['number'])
+		);
+
+		return $results;
 	}
 
 	public function sortByCount($a, $b) {
@@ -91,9 +97,11 @@ function tdc_ajax_get_consolidation_suggestions() {
 		$data = json_decode(stripslashes($_POST['request']), true);
 		$query = new SuggestionsQuery($data['taxonomy'], array('number' => 10));
 
+		$suggestions = $query->getSuggestions($data['page']);
+
 		print json_encode(array(
 			"success" => true,
-			"suggestions" => $query->getSuggestions($data['page']),
+			"suggestions" => $suggestions,
 			"original" => $data
 		));
 		wp_die();
