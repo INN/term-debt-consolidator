@@ -13,48 +13,53 @@
 	<div id="tdc-pagination-container"></div>
 </div>
 
-<script type="text/template" id="tdc-suggestion-tmpl">
-	<div class="tdc-suggestion">
-		<form data-primary-term="<%= group[0].term_id %>">
-			<p>Terms to consolidate:</p>
-			<ul>
-			<% _.each(group, function(term, k) { %>
-				<% if ( k == 0 ) { %>
-					<li>
-						<span class="tdc-term tdc-primary-term"><strong><%= term.name %></strong></span>
-						<input type="hidden" name="consolidate-primary" value="<%= term.term_id %>" />
-						<ul class="tdc-term-actions">
-							<li><span class="tdc-primary-term-indicator">Primary</span> | </li>
-							<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts</a></li>
-						</ul>
-					</li>
-				<% } else { %>
-					<li>
-							<span class="tdc-term"><%= term.name %></span>
-							<ul class="tdc-term-actions">
-								<li><a href="#" class="tdc-make-primary">Make primary</a> | </li>
-								<li><a href="#" class="tdc-remove-term">Remove</a> | </li>
-								<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts<span class="dashicons dashicons-external"></span></a></li>
-							</ul>
-					</li>
-				<% } %>
-			<% }) %>
-			</ul>
-		</form>
+<script type="text/javascript">
+	var TDC = <?php echo json_encode(tdc_json_obj(array('taxonomy' => 'post_tag'))); ?>;
+</script>
 
-		<div class="tdc-suggestion-actions">
-			<ul>
-				<li><a class="button button-primary" href="#" class="tdc-apply-consolidation">Apply consolidation</a></li>
-				<li><a href="#" class="tdc-dismiss-suggestion">Dismiss this suggestion</a></li>
-			</ul>
-		</div>
+<script type="text/template" id="tdc-suggestion-tmpl">
+	<form>
+		<p>Terms to consolidate:</p>
+		<ul><%= terms %></ul>
+	</form>
+
+	<div class="tdc-suggestion-actions">
+		<ul>
+			<li><a class="button button-primary tdc-apply-consolidation" href="#">Apply consolidation</a></li>
+			<li><a href="#" class="tdc-dismiss-suggestion">Dismiss this suggestion</a></li>
+		</ul>
 	</div>
 </script>
 
-<script type="text/template" id="tdc-no-suggestion-tmpl">
-	<div class="tdc-suggestion tdc-no-suggestion">
-		<p>No suggestions for term: <strong><%= group[0].name %></strong></p>
+<script type="text/template" id="tdc-primary-term-tmpl">
+	<li data-term-id="<%= term.term_id %>">
+		<span class="tdc-term tdc-primary-term"><strong><%= term.name %></strong></span>
+		<input type="hidden" name="primary_term_id" value="<%= term.term_id %>" />
+		<ul class="tdc-term-actions">
+			<li><span class="tdc-primary-term-indicator">Primary</span> | </li>
+			<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts</a></li>
+		</ul>
+	</li>
+</script>
 
+<script type="text/template" id="tdc-secondary-term-tmpl">
+	<li>
+		<span class="tdc-term"><%= term.name %></span>
+		<input type="hidden" name="term_ids[]" value="<%= term.term_id %>" />
+		<ul class="tdc-term-actions">
+			<li><a href="#" class="tdc-make-primary" data-term-id="<%= term.term_id %>">Make primary</a> | </li>
+			<li><a href="#" class="tdc-remove-term">Remove</a> | </li>
+			<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts<span class="dashicons dashicons-external"></span></a></li>
+		</ul>
+	</li>
+</script>
+
+<script type="text/template" id="tdc-no-suggestion-tmpl">
+	<div class="tdc-no-suggestion">
+		<p>No suggestions for term: <strong><%= term.name %></strong></p>
+		<form>
+			<input type="hidden" name="primary_term_id" value="<%= term.term_id %>" />
+		</form>
 		<div class="tdc-suggestion-actions">
 			<ul>
 				<li><a href="#" class="tdc-dismiss-suggestion">Dismiss</a></li>

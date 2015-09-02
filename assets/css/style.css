@@ -59,6 +59,6 @@ ul.tdc-term-actions li {
   display: inline-block;
 }
 
-.tdc-pagination-container {
+#tdc-pagination-container {
   margin-top: 20px;
 }

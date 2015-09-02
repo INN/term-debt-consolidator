@@ -44,7 +44,7 @@ var TDC = TDC || { suggestions: [] };
                     url: ajaxurl,
                     data: {
                         action: 'tdc_ajax_get_consolidation_suggestions',
-                        security: 'none',
+                        security: TDC.ajax_nonce,
                         request: JSON.stringify({
                             taxonomy: 'post_tag',
                             page: self.controller.page
@@ -102,12 +102,14 @@ var TDC = TDC || { suggestions: [] };
             self.$el.html('');
 
             _.each(data.suggestions.groups, function(group, i) {
-                if (group.length <= 1)
-                    template = _.template($('#tdc-no-suggestion-tmpl').html());
-                else
-                    template = _.template($('#tdc-suggestion-tmpl').html());
+                var templateId = (group.length <= 1)? '#tdc-no-suggestion-tmpl' : '#tdc-suggestion-tmpl',
+                    suggestion = new SuggestionView({
+                        template: _.template($(templateId).html()),
+                        group: group
+                    });
 
-                self.$el.append(template({ group: group }));
+                suggestion.render();
+                self.$el.append(suggestion.$el);
             });
 
             if (!this.pagination) {
@@ -172,6 +174,109 @@ var TDC = TDC || { suggestions: [] };
 
             this.$el.find('.tdc-page').html(attrs.page);
             this.$el.find('.tdc-total-pages').html(attrs.totalPages);
+        }
+    });
+
+    var SuggestionView = BaseView.extend({
+        className: 'tdc-suggestion',
+
+        events: {
+            'click a.tdc-apply-consolidation': 'apply',
+            'click a.tdc-dismiss-suggestion': 'dismiss',
+            'click a.tdc-make-primary': 'updatePrimary',
+            'click a.tdc-remove-term': 'removeTerm'
+        },
+
+        initialize: function(options) {
+            BaseView.prototype.initialize.apply(this, arguments);
+            this.template = options.template;
+            this.group = options.group;
+            return this;
+        },
+
+        render: function() {
+            var terms = '';
+
+            if (this.group.length <= 1) {
+                this.$el.append(this.template({ term: this.group[0] }));
+            } else {
+                _.each(this.group, function(term, idx) {
+                    if (idx == 0)
+                        terms += _.template($('#tdc-primary-term-tmpl').html(), { term: term });
+                    else
+                        terms += _.template($('#tdc-secondary-term-tmpl').html(), { term: term });
+                });
+                this.$el.append(this.template({ terms: terms }));
+            }
+
+            return this;
+        },
+
+        displayMessage: function(data) {
+            this.$el.html('');
+            this.$el.html('<p>' + data.message + '</p>');
+        },
+
+        apply: function() {
+            var form = this.$el.find('form'),
+                term_ids = form.find('input[name="term_ids[]"]').map(function(idx, ele) { return $(ele).val(); }).get(),
+                primary_term = form.find('input[name="primary_term_id"]').val();
+
+            this.request('apply', {
+                primary_term: primary_term,
+                term_ids: term_ids,
+                taxonomy: TDC.taxonomy
+            }, this.displayMessage.bind(this));
+
+            return false;
+        },
+
+        dismiss: function() {
+            var form = this.$el.find('form'),
+                primary_term = form.find('input[name="primary_term_id"]').val();
+
+            this.request('dismiss', {
+                primary_term: primary_term,
+                taxonomy: TDC.taxonomy
+            }, this.displayMessage.bind(this));
+
+            return false;
+        },
+
+        updatePrimary: function(event) {
+            var target = $(event.currentTarget),
+                parent = target.parent().parent().parent().parent();
+        },
+
+        removeTerm: function() {},
+
+        request: function(type, data, success) {
+            var self = this;
+
+            if (!type)
+                return false;
+
+            if (typeof self.ongoing !== 'undefined' && $.inArray(self.ongoing.state(), ['resolved', 'rejected']) == -1)
+                return false;
+
+            var opts = {
+                url: ajaxurl,
+                data: {
+                    action: 'tdc_ajax_' + type + '_consolidation_suggestions',
+                    security: TDC.ajax_nonce,
+                    request: JSON.stringify(data)
+                },
+                dataType: 'json',
+                method: 'post',
+                success: function(data) {
+                    if (typeof success !== 'undefined')
+                        success(data);
+                }
+            };
+
+            self.showSpinner();
+            self.ongoing = $.ajax(opts);
+            return false;
         }
     });
 

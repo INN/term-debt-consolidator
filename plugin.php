@@ -20,7 +20,7 @@ function tdc_init() {
 		'inc/functions.php',
 		'inc/assets.php',
 		'inc/pages.php',
-		'inc/consolidator.php'
+		'inc/ajax.php'
 	);
 
 	foreach ($includes as $include)

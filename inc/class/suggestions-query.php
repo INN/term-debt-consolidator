@@ -1,7 +1,5 @@
 <?php
 
-// TODO: figure out how to batch the analysis so that requests don't timeout.
-
 class SuggestionsQuery {
 
 	public $all_terms;
@@ -14,7 +12,16 @@ class SuggestionsQuery {
 			'number' => 100,
 		);
 		$this->options = wp_parse_args($options, $defaults);
-		$this->all_terms = get_terms(array($this->taxonomy), array('hide_empty' => false));
+
+		$all_terms_opts = array('hide_empty' => false);
+		$dismissed_suggestions = tdc_get_dismissed_suggestions($this->taxonomy);
+
+		if (!empty($dismissed_suggestions)) {
+			$this->options['exclude'] = $dismissed_suggestions;
+			$all_terms_opts['exclude'] = $dismissed_suggestions;
+		}
+
+		$this->all_terms = get_terms(array($this->taxonomy), $all_terms_opts);
 	}
 
 	public function getTerms($page=1) {
@@ -83,33 +90,3 @@ class SuggestionsQuery {
 	}
 
 }
-
-/**
- * AJAX Functions
- */
-
-/**
- * Respond to AJAX requests for tag consolidation suggestions
- *
- * @since 0.1
- */
-function tdc_ajax_get_consolidation_suggestions() {
-	//check_ajax_referer('tdc_ajax_nonce', 'security');
-
-	if (isset($_POST['request'])) {
-		$data = json_decode(stripslashes($_POST['request']), true);
-		$query = new SuggestionsQuery($data['taxonomy'], array('number' => 10));
-
-		$suggestions = $query->getSuggestions($data['page']);
-
-		print json_encode(array(
-			"success" => true,
-			"suggestions" => $suggestions,
-			"original" => $data
-		));
-		wp_die();
-	} else {
-		throw new Exception('Must specify a taxonomy to get suggestions.');
-	}
-}
-add_action('wp_ajax_tdc_ajax_get_consolidation_suggestions', 'tdc_ajax_get_consolidation_suggestions');
