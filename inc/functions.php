@@ -34,7 +34,8 @@ function tdc_json_obj($more=array()) {
 function tdc_dismiss_suggestions_for_term($term_id, $taxonomy) {
 	$existing = get_option('tdc_dismissed_termd_ids_for_' . $taxonomy, array());
 	$existing[] = (int) $term_id;
-	return update_option('tdc_dismissed_termd_ids_for' . $taxonomy, array_unique($existing));
+	var_log($existing);
+	return update_option('tdc_dismissed_termd_ids_for_' . $taxonomy, array_unique($existing));
 }
 
 /**
@@ -43,5 +44,5 @@ function tdc_dismiss_suggestions_for_term($term_id, $taxonomy) {
  * @since 0.1
  */
 function tdc_get_dismissed_suggestions($taxonomy) {
-	return get_option('tdc_dismissed_termd_ids_for' . $taxonomy, array());
+	return get_option('tdc_dismissed_termd_ids_for_' . $taxonomy, array());
 }
