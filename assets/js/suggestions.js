@@ -55,15 +55,25 @@ var TDC = TDC || { suggestions: [] };
                     success: function(data) {
                         self.trigger('suggestionsPopulated', data);
                         self.hideSpinner();
+                        self.hideFetching();
                     }
                 };
 
             if (self.controller.pagination)
                 self.controller.pagination.showSpinner();
 
+            self.showFetching();
             self.showSpinner();
             self.ongoing = $.ajax(opts);
             return false;
+        },
+
+        showFetching: function () {
+            this.$el.find('.fetching').show();
+        },
+
+        hideFetching: function() {
+            this.$el.find('.fetching').hide();
         }
     });
 
@@ -86,12 +96,17 @@ var TDC = TDC || { suggestions: [] };
         },
 
         render: function(data) {
-            var self = this;
-                template = _.template($('#tdc-suggestion-tmpl').html());
+            var self = this,
+                template;
 
             self.$el.html('');
 
             _.each(data.suggestions.groups, function(group, i) {
+                if (group.length <= 1)
+                    template = _.template($('#tdc-no-suggestion-tmpl').html());
+                else
+                    template = _.template($('#tdc-suggestion-tmpl').html());
+
                 self.$el.append(template({ group: group }));
             });
 
@@ -162,6 +177,7 @@ var TDC = TDC || { suggestions: [] };
 
     $(document).ready(function() {
         TDC.instances.suggestion_list = new SuggestionList({ el: '#tdc-suggestions-list' });
+        TDC.instances.suggestion_list.suggestion_form.getSuggestions();
     });
 
 }());

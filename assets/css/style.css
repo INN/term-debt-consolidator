@@ -11,3 +11,54 @@
   position: relative;
   top: -2px;
 }
+
+#tdc-suggestions .tdc-suggestion {
+  border-bottom: 1px solid #ccc;
+  padding: 12px 12px 0;
+  max-width: 700px;
+}
+
+#tdc-suggestions .tdc-suggestion:nth-child(odd) {
+  background: #ddd;
+}
+
+#tdc-suggestions .tdc-suggestion li {
+  margin-bottom: 10px;
+}
+
+#tdc-suggestions .tdc-suggestion li .tdc-term-actions {
+  margin: 4px 0 0 0;
+}
+
+.tdc-make-primary-indicator,
+.tdc-primary-term {
+  font-size: 12px;
+}
+
+.tdc-primary-term-indicator {
+  font-style: italic;
+  color: #888;
+}
+
+.tdc-term {
+ font-size: 16px;
+}
+.tdc-term-actions li span.dashicons {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.tdc-suggestion-actions ul li {
+  margin-right: 6px;
+  line-height: 28px;
+}
+
+.tdc-suggestion-actions ul li,
+ul.tdc-term-actions li {
+  display: inline-block;
+}
+
+.tdc-pagination-container {
+  margin-top: 20px;
+}

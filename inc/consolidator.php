@@ -41,8 +41,10 @@ class SuggestionsQuery {
 			if ($term_to_consider->term_id == $term->term_id)
 				continue;
 
-			if ($this->termsAreSimilar($term->name, $term_to_consider->name))
+			if ($this->termsAreSimilar($term->name, $term_to_consider->name)) {
+				$term_to_consider->url = get_term_link($term_to_consider, $this->taxonomy);
 				$similar[] = $term_to_consider;
+			}
 		}
 
 		return $similar;
@@ -56,6 +58,7 @@ class SuggestionsQuery {
 			return false;
 
 		foreach ($terms as $idx => $term) {
+			$term->url = get_term_link($term, $this->taxonomy);
 			$similar = $this->getSuggestionsForTerm($term);
 			usort($similar, array($this, 'sortByCount'));
 			$groups[] = $similar;
