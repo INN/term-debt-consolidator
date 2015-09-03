@@ -105,7 +105,8 @@ var TDC = TDC || { suggestions: [] };
                 var templateId = (group.length <= 1)? '#tdc-no-suggestion-tmpl' : '#tdc-suggestion-tmpl',
                     suggestion = new SuggestionView({
                         template: _.template($(templateId).html()),
-                        group: group
+                        group: group,
+                        controller: self
                     });
 
                 suggestion.render();
@@ -181,7 +182,7 @@ var TDC = TDC || { suggestions: [] };
         className: 'tdc-suggestion',
 
         events: {
-            'click a.tdc-apply-consolidation': 'apply',
+            'click a.tdc-apply-consolidation': 'applyConsolidation',
             'click a.tdc-dismiss-suggestion': 'dismiss',
             'click a.tdc-make-primary': 'updatePrimary',
             'click a.tdc-remove-term': 'removeTerm'
@@ -195,6 +196,8 @@ var TDC = TDC || { suggestions: [] };
         },
 
         render: function() {
+            this.$el.html('');
+
             var terms = '';
 
             if (this.group.length <= 1) {
@@ -213,42 +216,73 @@ var TDC = TDC || { suggestions: [] };
         },
 
         displayMessage: function(data) {
+            this.hideSpinner();
             this.$el.html('');
             this.$el.html('<p>' + data.message + '</p>');
         },
 
-        apply: function() {
-            var form = this.$el.find('form'),
+        applyConsolidation: function() {
+            var self = this,
+                form = this.$el.find('form'),
                 term_ids = form.find('input[name="term_ids[]"]').map(function(idx, ele) { return $(ele).val(); }).get(),
                 primary_term = form.find('input[name="primary_term_id"]').val();
 
+            this.showSpinner();
             this.request('apply', {
                 primary_term: primary_term,
                 term_ids: term_ids,
                 taxonomy: TDC.taxonomy
-            }, this.displayMessage.bind(this));
+            }, function(data) {
+                self.displayMessage(data);
+                self.controller.suggestion_form.getSuggestions();
+            });
 
             return false;
         },
 
         dismiss: function() {
-            var form = this.$el.find('form'),
+            var self = this,
+                form = this.$el.find('form'),
                 primary_term = form.find('input[name="primary_term_id"]').val();
 
+            this.showSpinner();
             this.request('dismiss', {
                 primary_term: primary_term,
                 taxonomy: TDC.taxonomy
-            }, this.displayMessage.bind(this));
+            }, function(data) {
+                self.displayMessage(data);
+                self.controller.suggestion_form.getSuggestions();
+            });
 
             return false;
         },
 
         updatePrimary: function(event) {
             var target = $(event.currentTarget),
-                parent = target.parent().parent().parent().parent();
+                target_term_id = target.data('term-id'),
+                index;
+
+            _.each(this.group, function(v, i) {
+                if (v.term_id == target_term_id) {
+                    index = i;
+                    return;
+                }
+            });
+
+            var new_primary = this.group.splice(index, 1);
+            this.group.unshift(new_primary[0]);
+            this.render();
+
+            return false;
         },
 
-        removeTerm: function() {},
+        removeTerm: function(event) {
+            var target= $(event.currentTarget),
+                parent = target.parent().parent().parent();
+
+            parent.remove();
+            return false;
+        },
 
         request: function(type, data, success) {
             var self = this;

@@ -7,7 +7,7 @@ class SuggestionsQuery {
 	public function __construct($taxonomy='category', $options=array()) {
 		$this->taxonomy = $taxonomy;
 		$defaults = array(
-			'hide_empty' => false,
+			'hide_empty' => true,
 			'offset' => 0,
 			'number' => 100,
 		);
@@ -25,7 +25,7 @@ class SuggestionsQuery {
 	}
 
 	public function getTerms($page=1) {
-		$this->options['offset'] = $page - 1;
+		$this->options['offset'] = (int) (($page - 1) * $this->options['number']);
 		return get_terms(array($this->taxonomy), $this->options);
 	}
 
@@ -50,6 +50,7 @@ class SuggestionsQuery {
 
 			if ($this->termsAreSimilar($term->name, $term_to_consider->name)) {
 				$term_to_consider->url = get_term_link($term_to_consider, $this->taxonomy);
+				$term_to_consider->edit_url = edit_term_link('Edit', '', '', $term_to_consider, false);
 				$similar[] = $term_to_consider;
 			}
 		}
@@ -66,6 +67,7 @@ class SuggestionsQuery {
 
 		foreach ($terms as $idx => $term) {
 			$term->url = get_term_link($term, $this->taxonomy);
+			$term->edit_url = edit_term_link('Edit', '', '', $term, false);
 			$similar = $this->getSuggestionsForTerm($term);
 			usort($similar, array($this, 'sortByCount'));
 			$groups[] = $similar;

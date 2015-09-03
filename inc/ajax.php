@@ -65,6 +65,12 @@ function tdc_ajax_apply_consolidation_suggestions() {
 		if (is_wp_error($remove_result))
 			$error = true;
 
+		foreach ($to_remove as $term_id_to_remove) {
+			$delete_result = wp_delete_term($term_id_to_remove, $data['taxonomy']);
+			if (is_wp_error($delete_result))
+				$error = true;
+		}
+
 		if ($error) {
 			print json_encode(array(
 				'success' => false,
@@ -76,7 +82,7 @@ function tdc_ajax_apply_consolidation_suggestions() {
 
 	print json_encode(array(
 		'success' => true,
-		'message' => 'Success!'
+		'message' => 'Successfully consolidated terms.'
 	));
 	wp_die();
 }
@@ -91,13 +97,12 @@ function tdc_ajax_dismiss_consolidation_suggestions() {
 	check_ajax_referer('tdc_ajax_nonce', 'security');
 
 	$data = json_decode(stripslashes($_POST['request']), true);
-	var_log($data);
 	$result = tdc_dismiss_suggestions_for_term($data['primary_term'], $data['taxonomy']);
 
 	if ($result) {
 		print json_encode(array(
 			'success' => true,
-			'message' => 'Suggestion dismissed!'
+			'message' => 'Dismissed!'
 		));
 	} else {
 		print json_encode(array(

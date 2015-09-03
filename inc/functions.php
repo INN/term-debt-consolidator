@@ -34,7 +34,6 @@ function tdc_json_obj($more=array()) {
 function tdc_dismiss_suggestions_for_term($term_id, $taxonomy) {
 	$existing = get_option('tdc_dismissed_termd_ids_for_' . $taxonomy, array());
 	$existing[] = (int) $term_id;
-	var_log($existing);
 	return update_option('tdc_dismissed_termd_ids_for_' . $taxonomy, array_unique($existing));
 }
 

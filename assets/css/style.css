@@ -62,3 +62,9 @@ ul.tdc-term-actions li {
 #tdc-pagination-container {
   margin-top: 20px;
 }
+
+.tdc-post-count {
+  font-size: 14px;
+  font-style: italic;
+  color: #888;
+}

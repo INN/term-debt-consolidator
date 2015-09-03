@@ -9,6 +9,12 @@
 	<div id="tdc-suggestions-request">
 		<p class="fetching">Fetching suggestions... <span class="spinner"></span></p>
 	</div>
+	<!--
+	<div id="tdc-suggestions-actions">
+		<ul>
+			<li><a href="#" class="button button-primary">Dismiss all</a></li>
+		</ul>
+	</div> -->
 	<div id="tdc-suggestions-list"></div>
 	<div id="tdc-pagination-container"></div>
 </div>
@@ -27,28 +33,31 @@
 		<ul>
 			<li><a class="button button-primary tdc-apply-consolidation" href="#">Apply consolidation</a></li>
 			<li><a href="#" class="tdc-dismiss-suggestion">Dismiss this suggestion</a></li>
+			<li><span class="spinner"></span></li>
 		</ul>
 	</div>
 </script>
 
 <script type="text/template" id="tdc-primary-term-tmpl">
 	<li data-term-id="<%= term.term_id %>">
-		<span class="tdc-term tdc-primary-term"><strong><%= term.name %></strong></span>
+		<span class="tdc-term tdc-primary-term"><strong><%= term.name %></strong> <span class="tdc-post-count">(Post count: <%= term.count %>)</span></span>
 		<input type="hidden" name="primary_term_id" value="<%= term.term_id %>" />
 		<ul class="tdc-term-actions">
 			<li><span class="tdc-primary-term-indicator">Primary</span> | </li>
-			<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts</a></li>
+			<li><%= term.edit_url %> | </li>
+			<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts<span class="dashicons dashicons-external"></span></a></li>
 		</ul>
 	</li>
 </script>
 
 <script type="text/template" id="tdc-secondary-term-tmpl">
 	<li>
-		<span class="tdc-term"><%= term.name %></span>
+		<span class="tdc-term"><%= term.name %> <span class="tdc-post-count">(Post count: <%= term.count %>)</span></span>
 		<input type="hidden" name="term_ids[]" value="<%= term.term_id %>" />
 		<ul class="tdc-term-actions">
 			<li><a href="#" class="tdc-make-primary" data-term-id="<%= term.term_id %>">Make primary</a> | </li>
 			<li><a href="#" class="tdc-remove-term">Remove</a> | </li>
+			<li><%= term.edit_url %> | </li>
 			<li><a target="new" href="<%= term.url %>" class="tdc-view-posts">View posts<span class="dashicons dashicons-external"></span></a></li>
 		</ul>
 	</li>
