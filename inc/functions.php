@@ -21,7 +21,6 @@ function tdc_render_template($template, $context=false) {
  * @since 0.1
  */
 function tdc_json_obj($more=array()) {
-	// TODO: $taxonomy should be something the user chooses
 	$taxonomy = 'post_tags';
 	$dismissed = tdc_get_dismissed_suggestions( $taxonomy );
 

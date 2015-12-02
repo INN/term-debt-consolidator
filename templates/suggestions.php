@@ -2,7 +2,7 @@
 	<h2>Term Debt Consolidator Suggestions</h2>
 
 	<div class="tdc-preamble">
-		<p>Term Debt Consolidator can look at your site's categories and tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.</p>
+		<p>Term Debt Consolidator can look at your site's tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.</p>
 		<p>Keep in mind that this process is imperfect and may make nonsensical suggestions from time to time. It's up to you to review the suggestions and approve or deny them.</p>
 	</div>
 
