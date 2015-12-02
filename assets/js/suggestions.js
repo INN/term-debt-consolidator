@@ -31,6 +31,13 @@ var TDC = TDC || { suggestions: [] };
 
     page: 1,
 
+    initialize: function() {
+      BaseView.prototype.initialize.apply(this, arguments);
+      TDC.instances.suggestion_list.suggestion_form.on(
+        'suggestionsPopulated', this.suggestionsPopulated.bind(this));
+      return this;
+    },
+
     generateSuggestions: function(event) {
       var self = this;
 
@@ -104,23 +111,18 @@ var TDC = TDC || { suggestions: [] };
         var suggestion_list = TDC.instances.suggestion_list;
         suggestion_list.$el.html('');
         if (suggestion_list.pagination) {
-          suggestion_list.pagination.remove();
-          delete suggestion_list.pagination;
+          suggestion_list.pagination.hide();
         }
       }
     },
 
     fetchSuggestions: function() {
-      var self = this;
-
-      TDC.instances.suggestion_list = new SuggestionList({ el: '#tdc-suggestions-list' });
       TDC.instances.suggestion_list.suggestion_form.getSuggestions();
+    },
 
-      TDC.instances.suggestion_list.suggestion_form.on('suggestionsPopulated', function() {
-          self.hideSpinner();
-          self.enableButton();
-          TDC.instances.suggestion_list.suggestion_form.off('suggestionsPopulated');
-      })
+    suggestionsPopulated: function() {
+      this.hideSpinner();
+      this.enableButton();
     }
   });
 
@@ -256,6 +258,7 @@ var TDC = TDC || { suggestions: [] };
         this.$el.find('.next').addClass('disabled');
 
       this.updateCount();
+      this.show();
     },
 
     next: function() {
@@ -275,6 +278,14 @@ var TDC = TDC || { suggestions: [] };
 
       this.$el.find('.tdc-page').html(attrs.page);
       this.$el.find('.tdc-total-pages').html(attrs.totalPages);
+    },
+
+    hide: function() {
+      this.$el.hide();
+    },
+
+    show: function() {
+      this.$el.show();
     }
   });
 
@@ -415,7 +426,9 @@ var TDC = TDC || { suggestions: [] };
   });
 
   $(document).ready(function() {
+    TDC.instances.suggestion_list = new SuggestionList({ el: '#tdc-suggestions-list' });
     TDC.instances.generate_button = new GenerateSuggestions({ el: '#tdc-suggestions-request' });
+
     if (TDC.existing) {
       TDC.instances.generate_button.disableButton();
       TDC.instances.generate_button.showSpinner();
