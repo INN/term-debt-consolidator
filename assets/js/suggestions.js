@@ -24,6 +24,75 @@ var TDC = TDC || { suggestions: [] };
         }
     });
 
+    var GenerateSuggestions = BaseView.extend({
+        events: {
+            'click a.tdc-generate-suggestions': 'generateSuggestions'
+        },
+
+        page: 1,
+
+        generateSuggestions: function() {
+            var self = this;
+
+            if (typeof event !=='undefined' &&
+                event.type =='click' &&
+                typeof self.ongoing !== 'undefined' &&
+                $.inArray(self.ongoing.state(), ['resolved', 'rejected']) == -1)
+            {
+                return false;
+            }
+
+            var opts = {
+                    url: ajaxurl,
+                    data: {
+                        action: 'tdc_ajax_generate_consolidation_suggestions',
+                        security: TDC.ajax_nonce,
+                        request: JSON.stringify({
+                            taxonomy: 'post_tag',
+                            page: self.page
+                        })
+                    },
+                    dataType: 'json',
+                    method: 'post',
+                    success: function(data) {
+                        if (data.suggestions.page == data.suggestions.totalPages) {
+                          self.updateProgress(100);
+                          self.hideSpinner();
+                          self.fetchSuggestions();
+                        } else {
+                          self.updateProgress((data.suggestions.page / data.suggestions.totalPages) * 100);
+                          self.page += 1;
+                          self.generateSuggestions();
+                        }
+                    }
+                };
+
+            self.disableButton();
+            self.showProgress();
+            self.showSpinner();
+            self.ongoing = $.ajax(opts);
+            return false;
+        },
+
+        updateProgress: function(value) {
+          this.$el.find('.tdc-generate-suggestions-progress').progressbar({ value: value });
+        },
+
+        showProgress: function() {
+          this.$el.find('.tdc-generate-suggestions-progress').progressbar().show();
+        },
+
+        disableButton: function() {
+          this.$el.find('.tdc-generate-suggestions').addClass('disabled');
+        },
+
+        fetchSuggestions: function() {
+          this.$el.html('<p class="fetching">Fetching suggestions... <span class="spinner"></span></p>');
+          TDC.instances.suggestion_list = new SuggestionList({ el: '#tdc-suggestions-list' });
+          TDC.instances.suggestion_list.suggestion_form.getSuggestions();
+        }
+    });
+
     var SuggestionForm = BaseView.extend({
         events: {
             'click .submit': 'getSuggestions'
@@ -315,8 +384,7 @@ var TDC = TDC || { suggestions: [] };
     });
 
     $(document).ready(function() {
-        TDC.instances.suggestion_list = new SuggestionList({ el: '#tdc-suggestions-list' });
-        TDC.instances.suggestion_list.suggestion_form.getSuggestions();
+        TDC.instances.generate_button = new GenerateSuggestions({ el: '#tdc-suggestions-request' });
     });
 
 }());

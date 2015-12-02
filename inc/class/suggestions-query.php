@@ -10,6 +10,7 @@ class SuggestionsQuery {
 			'hide_empty' => true,
 			'offset' => 0,
 			'number' => 100,
+			'autoDismiss' => true
 		);
 		$this->options = wp_parse_args($options, $defaults);
 
@@ -69,6 +70,12 @@ class SuggestionsQuery {
 			$term->url = get_term_link($term, $this->taxonomy);
 			$term->edit_url = edit_term_link('Edit', '', '', $term, false);
 			$similar = $this->getSuggestionsForTerm($term);
+
+			if ( count( $similar ) <= 1 && $this->options['autoDismiss'] ) {
+				tdc_dismiss_suggestions_for_term($term->term_id, $this->taxonomy);
+				continue;
+			}
+
 			usort($similar, array($this, 'sortByCount'));
 			$groups[] = $similar;
 		}

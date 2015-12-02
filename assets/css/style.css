@@ -68,3 +68,8 @@ ul.tdc-term-actions li {
   font-style: italic;
   color: #888;
 }
+
+.tdc-generate-suggestions-progress {
+  margin: 20px 0;
+  display: none;
+}

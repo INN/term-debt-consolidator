@@ -7,14 +7,11 @@
 	</div>
 
 	<div id="tdc-suggestions-request">
-		<p class="fetching">Fetching suggestions... <span class="spinner"></span></p>
+		<a class="tdc-generate-suggestions button button-primary" href="#">Generate suggestions</a>
+		<span class="spinner"></span>
+		<div class="tdc-generate-suggestions-progress"></div>
 	</div>
-	<!--
-	<div id="tdc-suggestions-actions">
-		<ul>
-			<li><a href="#" class="button button-primary">Dismiss all</a></li>
-		</ul>
-	</div> -->
+
 	<div id="tdc-suggestions-list"></div>
 	<div id="tdc-pagination-container"></div>
 </div>

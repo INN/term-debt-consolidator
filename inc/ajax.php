@@ -3,6 +3,32 @@
 include_once __DIR__ . '/class/suggestions-query.php';
 
 /**
+ * Respond to AJAX requests for generating tag consolidation suggestions
+ *
+ * @since 0.1
+ */
+function tdc_ajax_generate_consolidation_suggestions() {
+	check_ajax_referer('tdc_ajax_nonce', 'security');
+
+	if (isset($_POST['request'])) {
+		$data = json_decode(stripslashes($_POST['request']), true);
+		$query = new SuggestionsQuery($data['taxonomy']);
+
+		$suggestions = $query->getSuggestions($data['page']);
+
+		print json_encode(array(
+			"success" => true,
+			"suggestions" => $suggestions,
+			"original" => $data
+		));
+		wp_die();
+	} else {
+		throw new Exception('Must specify a taxonomy to get suggestions.');
+	}
+}
+add_action('wp_ajax_tdc_ajax_generate_consolidation_suggestions', 'tdc_ajax_generate_consolidation_suggestions');
+
+/**
  * Respond to AJAX requests for tag consolidation suggestions
  *
  * @since 0.1
