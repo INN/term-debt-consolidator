@@ -15,7 +15,7 @@ We welcome contributions and suggestions to help us improve this project. Please
 
 We have [a helpful how-to](https://github.com/INN/docs/blob/master/how-to-work-with-us/via-github.md) that walks through this process in more detail if you're new to using Git.
 
-Additionally, you can [create issues](https://github.com/INN/link-roundups/issues) on this repo to suggest changes or improvements.
+Additionally, you can [create issues](https://github.com/INN/term-debt-consolidator/issues) on this repo to suggest changes or improvements.
 
 And of course you can always email us: [nerds@inn.org](mailto:nerds@inn.org).
 
