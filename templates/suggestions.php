@@ -7,9 +7,13 @@
 	</div>
 
 	<div id="tdc-suggestions-request">
-		<a class="tdc-generate-suggestions button button-primary" href="#">Generate suggestions</a>
+		<a class="tdc-generate-suggestions button button-primary" href="#"><?php if ( $existing ) { ?>Regenerate<?php } else { ?>Generate<?php } ?> suggestions</a>
 		<span class="spinner"></span>
 		<div class="tdc-generate-suggestions-progress"></div>
+	</div>
+
+	<div id="tdc-fetching-suggestions">
+		<p class="fetching">Fetching suggestions...</p>
 	</div>
 
 	<div id="tdc-suggestions-list"></div>

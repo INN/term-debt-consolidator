@@ -73,3 +73,11 @@ ul.tdc-term-actions li {
   margin: 20px 0;
   display: none;
 }
+
+#tdc-fetching-suggestions .fetching {
+  display: none;
+}
+
+#tdc-suggestions-request {
+  margin-bottom: 20px;
+}
