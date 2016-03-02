@@ -123,9 +123,10 @@ function tdc_ajax_dismiss_consolidation_suggestions() {
 	check_ajax_referer('tdc_ajax_nonce', 'security');
 
 	$data = json_decode(stripslashes($_POST['request']), true);
+
 	$result = tdc_dismiss_suggestions_for_term($data['primary_term'], $data['taxonomy']);
 
-	if ($result) {
+	if ( ! is_wp_error($result) ) {
 		print json_encode(array(
 			'success' => true,
 			'message' => 'Dismissed!'

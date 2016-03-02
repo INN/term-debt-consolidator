@@ -21,12 +21,12 @@ function tdc_render_template($template, $context=false) {
  * @since 0.1
  */
 function tdc_json_obj($more=array()) {
-	$taxonomy = 'post_tags';
+	$taxonomy = 'post_tag';
 	$dismissed = tdc_get_dismissed_suggestions( $taxonomy );
 
 	return array_merge(array(
 		'ajax_nonce' => wp_create_nonce('tdc_ajax_nonce'),
-		'existing' => empty( $dismissed )
+		'existing' => ! empty( $dismissed )
 	), $more);
 }
 
@@ -36,9 +36,15 @@ function tdc_json_obj($more=array()) {
  * @since 0.1
  */
 function tdc_dismiss_suggestions_for_term($term_id, $taxonomy) {
-	$existing = get_option('tdc_dismissed_term_ids_for_' . $taxonomy, array());
-	$existing[] = (int) $term_id;
-	return update_option('tdc_dismissed_term_ids_for_' . $taxonomy, array_unique($existing));
+	global $wpdb;
+
+	$result = $wpdb->insert(
+		$wpdb->prefix . 'tdc_dismissed_suggestions',
+		array( 'term_id' => (int) $term_id, 'taxonomy' => $taxonomy ),
+		array( '%d', '%s' )
+	);
+
+	return $result;
 }
 
 /**
@@ -47,7 +53,20 @@ function tdc_dismiss_suggestions_for_term($term_id, $taxonomy) {
  * @since 0.1
  */
 function tdc_get_dismissed_suggestions($taxonomy) {
-	return get_option('tdc_dismissed_term_ids_for_' . $taxonomy, array());
+	global $wpdb;
+
+	$result = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT term_id from {$wpdb->prefix}tdc_dismissed_suggestions where taxonomy = %s", $taxonomy
+		), ARRAY_N
+	);
+
+	$ret = array_map(function($term_id) { return $term_id[0]; }, $result);
+
+	if ( ! empty( $result ) ) {
+		return $ret;
+	}
+	return array();
 }
 
 /**
@@ -56,5 +75,12 @@ function tdc_get_dismissed_suggestions($taxonomy) {
  * @since 0.1
  */
 function tdc_clear_dismissed_suggestions($taxonomy) {
-	return delete_option('tdc_dismissed_term_ids_for_' . $taxonomy);
+	$wpdb;
+
+	$result = $wpdb->delete(
+		$wpdb->prefix . 'tdc_dismissed_suggestions',
+		array( 'taxonomy' => $taxonomy )
+	);
+
+	return $result;
 }

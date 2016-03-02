@@ -9,6 +9,9 @@
  * License: GPLv2
  */
 
+/**
+ * Plugin set up
+ */
 function tdc_init() {
 	define('TDC_PLUGIN_FILE', __FILE__);
 	define('TDC_PLUGIN_DIR_URI', plugins_url(basename(__DIR__), __DIR__));
@@ -28,7 +31,28 @@ function tdc_init() {
 }
 add_action('init', 'tdc_init');
 
+/**
+ * On plugin activation, make sure the tdc_dismissed_suggestions table is created.
+ */
+function tdc_plugin_activate() {
+	global $wpdb;
 
+	$dismissed_suggestions_table = $wpdb->prefix . "tdc_dismissed_suggestions";
+
+	$result = $wpdb->query("
+		CREATE TABLE IF NOT EXISTS `" . $dismissed_suggestions_table . "` (
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`term_id` bigint(20) unsigned NOT NULL,
+			`taxonomy` varchar(450) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE KEY `term_id` (`term_id`)
+		) ENGINE=InnoDB;");
+}
+register_activation_hook( __FILE__, 'tdc_plugin_activate' );
+
+/**
+ * Add the TDC admin menu
+ */
 function tdc_admin_menu() {
 	add_menu_page(
 		'Term Debt Consolidator',
