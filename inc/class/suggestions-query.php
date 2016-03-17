@@ -17,7 +17,11 @@ class SuggestionsQuery {
 			 *
 			 * @see tdc_list_terms_exclusions
 			 **/
-			'tdc' => true
+			'tdc' => true,
+			/**
+			 * Avoid problems when object cache is in use
+			 */
+			'cache_domain' => 'tdc_terms_' . microtime()
 		);
 		$this->options = wp_parse_args($options, $defaults);
 		$all_terms_opts = array('hide_empty' => false, 'tdc' => true);
