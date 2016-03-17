@@ -10,18 +10,17 @@ class SuggestionsQuery {
 			'hide_empty' => true,
 			'offset' => 0,
 			'number' => 100,
-			'autoDismiss' => true
+			'autoDismiss' => true,
+			/**
+			 * Pass `tdc` so we can identify queries for suggestions
+			 * and modify the get_terms SQL accordingly
+			 *
+			 * @see tdc_list_terms_exclusions
+			 **/
+			'tdc' => true
 		);
 		$this->options = wp_parse_args($options, $defaults);
-
-		$all_terms_opts = array('hide_empty' => false);
-		$dismissed_suggestions = tdc_get_dismissed_suggestions($this->taxonomy);
-
-		if (!empty($dismissed_suggestions)) {
-			$this->options['exclude'] = $dismissed_suggestions;
-			$all_terms_opts['exclude'] = $dismissed_suggestions;
-		}
-
+		$all_terms_opts = array('hide_empty' => false, 'tdc' => true);
 		$this->all_terms = get_terms(array($this->taxonomy), $all_terms_opts);
 	}
 
@@ -99,3 +98,22 @@ class SuggestionsQuery {
 	}
 
 }
+
+/**
+ * Modify the get_terms SQL query to get excluded term_ids from the tdc_dismissed_suggestions
+ * table.
+ */
+function tdc_list_terms_exclusions($exclusions, $args, $taxonomies) {
+	if ($args['tdc']) {
+		global $wpdb;
+
+		$ret = " AND t.term_id NOT IN (SELECT tdcds.term_id from " .
+			$wpdb->prefix . "tdc_dismissed_suggestions as tdcds where tdcds.taxonomy in ('" .
+			implode( "', '", array_map( 'esc_sql', $taxonomies ) ) . "'))";
+
+		return $ret;
+	} else {
+		return $exclusions;
+	}
+}
+add_filter('list_terms_exclusions', 'tdc_list_terms_exclusions', 99, 3);
