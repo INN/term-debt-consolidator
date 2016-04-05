@@ -6,6 +6,14 @@
 		<p>Keep in mind that this process is imperfect and may make nonsensical suggestions from time to time. It's up to you to review the suggestions and approve or deny them.</p>
 	</div>
 
+	<div id="tdc-tax-selector" class="tdc-taxonomy-selector">
+		<p>Choose a taxonomy:</p>
+		<ul>
+			<li><label for="category"><input type="radio" name="taxonomy" id="category" value="category" /> Categories</label></li>
+			<li><label for="post_tag"><input type="radio" name="taxonomy" id="post_tag" value="post_tag" checked /> Tags</label></li>
+		</ul>
+	</div>
+
 	<div id="tdc-suggestions-request">
 		<a class="tdc-generate-suggestions button button-primary" href="#"><?php if ( $existing ) { ?>Regenerate<?php } else { ?>Generate<?php } ?> suggestions</a>
 		<span class="spinner"></span>

@@ -24,6 +24,34 @@ var TDC = TDC || { suggestions: [] };
     }
   });
 
+  var TaxonomySelector = BaseView.extend({
+    events: {
+      'change input': 'change',
+    },
+
+    initialize: function(options) {
+      this.suggestion_list = options.suggestion_list;
+      BaseView.prototype.initialize.apply(this, arguments);
+      this.suggestion_list.suggestion_form.on('suggestionsPopulated', this.enable.bind(this));
+      return this;
+    },
+
+    disable: function() {
+      this.$el.find('input').attr('disabled', 'disabled');
+    },
+
+    enable: function() {
+      this.$el.find('input').removeAttr('disabled');
+    },
+
+    change: function(event) {
+      var target = $(event.currentTarget);
+      TDC.taxonomy = target.val();
+      this.trigger('taxonomy_changed');
+      return false;
+    }
+  });
+
   var GenerateSuggestions = BaseView.extend({
     events: {
       'click a.tdc-generate-suggestions': 'generateSuggestions'
@@ -58,7 +86,7 @@ var TDC = TDC || { suggestions: [] };
             action: 'tdc_ajax_generate_consolidation_suggestions',
             security: TDC.ajax_nonce,
             request: JSON.stringify({
-              taxonomy: 'post_tag',
+              taxonomy: TDC.taxonomy,
               page: self.page
             })
           },
@@ -148,7 +176,7 @@ var TDC = TDC || { suggestions: [] };
             action: 'tdc_ajax_get_consolidation_suggestions',
             security: TDC.ajax_nonce,
             request: JSON.stringify({
-              taxonomy: 'post_tag',
+              taxonomy: TDC.taxonomy,
               page: self.controller.page
             })
           },
@@ -428,12 +456,31 @@ var TDC = TDC || { suggestions: [] };
   $(document).ready(function() {
     TDC.instances.suggestion_list = new SuggestionList({ el: '#tdc-suggestions-list' });
     TDC.instances.generate_button = new GenerateSuggestions({ el: '#tdc-suggestions-request' });
+    TDC.instances.tax_selector = new TaxonomySelector({
+      el: '#tdc-tax-selector',
+      suggestion_list: TDC.instances.suggestion_list
+    });
 
-    if (TDC.existing) {
-      TDC.instances.generate_button.disableButton();
-      TDC.instances.generate_button.showSpinner();
-      TDC.instances.generate_button.fetchSuggestions();
-    }
+    var initialSetup = function() {
+      TDC.instances.suggestion_list.$el.html('');
+
+      if (typeof TDC.instances.suggestion_list.pagination !== 'undefined') {
+        TDC.instances.suggestion_list.pagination.hide();
+      }
+
+      if (TDC.existing[TDC.taxonomy]) {
+        TDC.instances.tax_selector.disable();
+        TDC.instances.generate_button.disableButton();
+        TDC.instances.generate_button.showSpinner();
+        TDC.instances.generate_button.fetchSuggestions();
+      }
+    };
+
+    TDC.instances.tax_selector.on('taxonomy_changed', function(event) {
+      initialSetup();
+    });
+
+    initialSetup();
   });
 
 }());

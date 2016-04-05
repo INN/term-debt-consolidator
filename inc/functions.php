@@ -21,12 +21,15 @@ function tdc_render_template($template, $context=false) {
  * @since 0.1
  */
 function tdc_json_obj($more=array()) {
-	$taxonomy = 'post_tag';
-	$dismissed = tdc_get_dismissed_suggestions( $taxonomy );
+	$tags_dismissed = tdc_get_dismissed_suggestions( 'post_tag' );
+	$cats_dismissed = tdc_get_dismissed_suggestions( 'category' );
 
 	return array_merge(array(
 		'ajax_nonce' => wp_create_nonce('tdc_ajax_nonce'),
-		'existing' => ! empty( $dismissed )
+		'existing' => array(
+			'post_tag' => ! empty( $tags_dismissed ),
+			'category' => ! empty( $cats_dismissed )
+		)
 	), $more);
 }
 
