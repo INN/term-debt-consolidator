@@ -108,7 +108,7 @@ class SuggestionsQuery {
  * table.
  */
 function tdc_list_terms_exclusions($exclusions, $args, $taxonomies) {
-	if ($args['tdc']) {
+	if ( isset( $args['tdc'] ) ) {
 		global $wpdb;
 
 		$ret = " AND t.term_id NOT IN (SELECT tdcds.term_id from " .
