@@ -9,13 +9,14 @@
 	<div id="tdc-tax-selector" class="tdc-taxonomy-selector">
 		<p>Choose a taxonomy:</p>
 		<ul>
-			<li><label for="category"><input type="radio" name="taxonomy" id="category" value="category" /> Categories</label></li>
-			<li><label for="post_tag"><input type="radio" name="taxonomy" id="post_tag" value="post_tag" checked /> Tags</label></li>
+			<?php foreach ( $taxonomies as $tax_name => $tax ) { ?>
+				<li><label for="<?php echo $tax_name ; ?>"><input <?php checked( 'post_tag', $tax_name); ?> type="radio" name="taxonomy" id="<?php echo $tax_name; ?>" value="<?php echo $tax_name; ?>" /> <?php echo ( ! empty( $tax->label) ) ? $tax->label : $tax_name; ?></label></li>
+			<?php } ?>
 		</ul>
 	</div>
 
 	<div id="tdc-suggestions-request">
-		<a class="tdc-generate-suggestions button button-primary" href="#"><?php if ( $existing ) { ?>Regenerate<?php } else { ?>Generate<?php } ?> suggestions</a>
+		<a class="tdc-generate-suggestions button button-primary" href="#"><?php if ( $existing[$default] ) { ?>Regenerate<?php } else { ?>Generate<?php } ?> suggestions</a>
 		<span class="spinner"></span>
 		<div class="tdc-generate-suggestions-progress"></div>
 	</div>

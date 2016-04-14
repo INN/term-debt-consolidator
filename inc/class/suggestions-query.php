@@ -6,7 +6,7 @@ class SuggestionsQuery {
 
 	public function __construct($taxonomy='category', $options=array()) {
 		$this->taxonomy = $taxonomy;
-		$defaults = array(
+		$defaults = apply_filters( 'tdc_default_get_terms_args', array(
 			'hide_empty' => true,
 			'offset' => 0,
 			'number' => 100,
@@ -22,9 +22,9 @@ class SuggestionsQuery {
 			 * Avoid problems when object cache is in use
 			 */
 			'cache_domain' => 'tdc_terms_' . microtime()
-		);
+		), $taxonomy );
 		$this->options = wp_parse_args($options, $defaults);
-		$all_terms_opts = array('hide_empty' => false, 'tdc' => true);
+		$all_terms_opts = apply_filters( 'tdc_all_term_args', array('hide_empty' => false, 'tdc' => true), $taxonomy );
 		$this->all_terms = get_terms(array($this->taxonomy), $all_terms_opts);
 	}
 

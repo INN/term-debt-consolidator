@@ -21,15 +21,17 @@ function tdc_render_template($template, $context=false) {
  * @since 0.1
  */
 function tdc_json_obj($more=array()) {
-	$tags_dismissed = tdc_get_dismissed_suggestions( 'post_tag' );
-	$cats_dismissed = tdc_get_dismissed_suggestions( 'category' );
+	$enabled_taxonomies = tdc_enabled_taxonomies();
+
+	$existing = array();
+	foreach ( $enabled_taxonomies as $tax ) {
+		$dissmissed_for_tax = tdc_get_dismissed_suggestions( $tax );
+		$existing[$tax] = ! empty( $dissmissed_for_tax );
+	}
 
 	return array_merge(array(
 		'ajax_nonce' => wp_create_nonce('tdc_ajax_nonce'),
-		'existing' => array(
-			'post_tag' => ! empty( $tags_dismissed ),
-			'category' => ! empty( $cats_dismissed )
-		)
+		'existing' => $existing
 	), $more);
 }
 
@@ -86,4 +88,24 @@ function tdc_clear_dismissed_suggestions($taxonomy) {
 	);
 
 	return $result;
+}
+
+/**
+ * Get taxonomies for which TDC should be enabled
+ *
+ * @since 0.1
+ */
+function tdc_enabled_taxonomies() {
+	$taxonomies = apply_filters( 'tdc_enabled_taxonomies', array( 'post_tag', 'category' ) );
+
+	// Post tags must always be enabled for now
+	$existing = array('post_tag');
+	foreach ( $taxonomies as $tax ) {
+		// Only allow taxonomies that actually exist
+		if ( taxonomy_exists( $tax ) ) {
+			$existing[] = $tax;
+		}
+	}
+
+	return $existing;
 }

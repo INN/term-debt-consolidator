@@ -28,6 +28,11 @@ function tdc_init() {
 
 	foreach ($includes as $include)
 		include_once TDC_PLUGIN_DIR . '/' . $include;
+
+	if ( class_exists( 'WP_CLI_Command' ) ) {
+		include_once TDC_PLUGIN_DIR . '/inc/cli.php';
+		WP_CLI::add_command( 'tdc', 'TDC_WP_CLI' );
+	}
 }
 add_action('init', 'tdc_init');
 
