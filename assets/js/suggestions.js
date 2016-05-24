@@ -268,7 +268,7 @@ var TDC = TDC || { suggestions: [] };
 
       this.$el.html('');
       this.$el.append(
-        _.template($('#tdc-pagination-tmpl').html(), {})
+        _.template($('#tdc-pagination-tmpl').html())({})
       );
 
       if (typeof attrs.totalPages == 'undefined')
@@ -344,9 +344,9 @@ var TDC = TDC || { suggestions: [] };
       } else {
         _.each(this.group, function(term, idx) {
           if (idx == 0)
-            terms += _.template($('#tdc-primary-term-tmpl').html(), { term: term });
+            terms += _.template($('#tdc-primary-term-tmpl').html())({ term: term });
           else
-            terms += _.template($('#tdc-secondary-term-tmpl').html(), { term: term });
+            terms += _.template($('#tdc-secondary-term-tmpl').html())({ term: term });
         });
         this.$el.append(this.template({ terms: terms }));
       }
