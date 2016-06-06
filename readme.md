@@ -16,14 +16,9 @@ Keep in mind that this process is imperfect and may make nonsensical suggestions
 
 Term Debt Consolidator can be installed like any other WordPress plugin.
 
-1. Download the contents of this repository.
-2. Unzip the package and rename the folder to "term-debt-consolidator" (the folder will be called "term-debt-consolidator-master" but this may cause problems if you don't rename it before uploading to your site)
-3. Upload the folder to your WordPress installation in the wp-content/plugins directory
-4. Login to WordPress, click on Plugins in the left hand menu
-5. Select the Term Debt Consolidator plugin and click "activate"
-6. Use the plugin via the Term Debt Consolidator link in the WordPress dashboard
-
-Installation directly from the WordPress.org plugin directory coming soon!
+1. Upload the plugin files to the `/wp-content/plugins/term-debt-consolidator` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress
+3. Use the plugin via the Term Debt Consolidator link in the WordPress dashboard
 
 ## Enabled taxonomies
 
