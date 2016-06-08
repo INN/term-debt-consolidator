@@ -7,7 +7,7 @@
  */
 function tdc_enqueue_assets() {
 	wp_register_style('tdc-admin-ui-css',
-		'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css',
+		TDC_PLUGIN_DIR_URI . '/assets/css/jquery-ui.css',
 		false, TDC_VERSION, false
 	);
 
