@@ -53,4 +53,4 @@ This will assign the term you made primary to all the posts that had the term be
 
 ## Regenerating Term Debt Consolidator Suggestions
 
-Over time as more tags are added to posts, you may want to return to the Term Debt Consolidator for additional cleanup. Just remember if you dismiss a suggestion the plugin will remember, and it won't suggest consolidating those terms again.
+Over time as more tags are added to posts, you may want to return to the Term Debt Consolidator for additional cleanup. Just remember that if you dismiss a suggestion the plugin will remember the dismissal, and it won't suggest consolidating those terms again.
