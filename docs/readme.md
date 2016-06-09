@@ -1,4 +1,4 @@
-# Using the Term Debt Consolidator
+# WordPress Term Debt Consolidator
 
 Term Debt Consolidator can look at your WordPress site's tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.
 
