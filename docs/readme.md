@@ -45,6 +45,12 @@ In this case we'd probably want to make "Politics" the primary term, and remove 
 
 So we'd want to:
 
-- Click "Make primary" for "Politics"
-- Click "Remove" for "Politic"
+- First click "Make primary" for "Politics"
+- Then click "Remove" for "Politic"
 - Finally, click the **Apply consolidation** button
+
+This will assign the term you made primary to all the posts that had the term being removed. It will also delete the removed term in **Posts > Categories**, or **Posts > Tags**, or a custom taxonomy if you're using one with the plugin.
+
+## Regenerating Term Debt Consolidator Suggestions
+
+Over time as more tags are added to posts, you may want to return to the Term Debt Consolidator for additional cleanup. Just remember if you dismiss a suggestion the plugin will remember, and it won't suggest consolidating those terms again.
