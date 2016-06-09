@@ -37,7 +37,7 @@ After dismissing the suggestion, Term Debt Consolidator won't show it again.
 
 ## Choosing Which Term to Make Primary
 
-Of course it's your choice for any given pair of terms bring suggested for consolidation which term to make primary or remove. Just note that for each pair the Term Debt Consolidator displays two rows for each pair:
+Of course for any given pair of terms being suggested for consolidation, it's your choice which term to make primary or remove. Just note that for each pair the Term Debt Consolidator displays two rows for each pair:
 
 ![Term Debt Consolidator suggested terms to consolidate](./img/term-debt-consolidator-suggestion-rows.png)
 
