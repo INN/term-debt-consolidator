@@ -1,6 +1,6 @@
 === Term Debt Consolidator ===
 Contributors: inn_nerds
-Donate link: http://bit.ly/1N4nSJJ
+Donate link: https://inn.org/donate
 Tags: taxonomy, tags, categories, consolidation
 Requires at least: 4.1
 Tested up to: 4.5.2
