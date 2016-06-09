@@ -31,7 +31,7 @@ Note what you can do with the list of suggestions:
 
 If the Term Debt Consolidator suggests consolidating terms you wish to keep separate, you can **Dismiss this suggestion**:
 
-![Dismiss link in the Term Debt Consolidator](./img/term-debt-consolidator-dismiss-suggestion.png)
+![Dismiss link in the Term Debt Consolidator](./img/term-debt-consolidator-dismiss.png)
 
 After dismissing the suggestion, Term Debt Consolidator won't show it again.
 
