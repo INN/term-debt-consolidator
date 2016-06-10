@@ -1,14 +1,16 @@
 # WordPress Term Debt Consolidator
 
-Term Debt Consolidator can look at your WordPress site's tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.
+As posts are created and assigned catgories and tags over time, the number of terms can grow quite large. Without careful curation, a site can wind up with multiple terms that mean the same thing. Instead of organizing site content and making posts in every topic easily findable, multiple terms for the same basic subject can fragment the site and reduce usability. 
 
-Keep in mind that this process is imperfect and may make nonsensical suggestions from time to time. It's up to you to review the suggestions and approve or deny them.
+Term Debt Consolidator can analyze your WordPress site's Categories and Tags (and optionally custom taxonomies) to identify terms that might be redundant. It will then suggest terms for consolidation and deletion to improve the effectiveness of WordPress's taxonomy functionality.
+
+Keep in mind that this process is imperfect and may make some nonsensical suggestions. Machines aren't yet great at natural language analysis or semantic nuance. It's up to you to review the suggestions and approve or dismiss them. If your site has hundreds of terms, it might take some time to go through the report provided by the Term Debt Consolidator. But you'll end up with an efficient set of terms that truly helps people find your content.
 
 ## Installation
 
 Term Debt Consolidator can be installed like any other WordPress plugin.
 
-1. Install the plugin through the WordPress plugins screen directly, or download the zip file from this Github repo and install manually to your WordPress site.
+1. Install the plugin through the WordPress plugins screen directly, or download the zip file from this Github repo and install it manually to your WordPress site.
 2. Activate the plugin through the 'Plugins' screen in WordPress
 3. Use the plugin via the **Term Debt Consolidator** link in the WordPress dashboard
 
