@@ -4,7 +4,7 @@ As posts are created and assigned catgories and tags over time, the number of te
 
 Term Debt Consolidator can analyze your WordPress site's Categories and Tags (and optionally custom taxonomies) to identify terms that might be redundant. It will then suggest terms for consolidation and deletion to improve the effectiveness of WordPress's taxonomy functionality.
 
-Keep in mind that this process is imperfect and may make some nonsensical suggestions. Machines aren't yet great at natural language analysis or semantic nuance. It's up to you to review the suggestions and approve or dismiss them. If your site has hundreds of terms, it might take some time to go through the report provided by the Term Debt Consolidator. But you'll end up with an efficient set of terms that truly helps people find your content.
+Keep in mind that this process is imperfect and may make some nonsensical suggestions and this plugin uses a fairly simple algorithm to identify similar terms. It's up to you to review the suggestions and approve or dismiss them. If your site has hundreds of terms, it might take some time to go through the report provided by the Term Debt Consolidator. But you'll end up with an efficient set of terms that truly helps people find your content.
 
 ## Installation
 
