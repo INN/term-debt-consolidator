@@ -1,0 +1,19 @@
+{
+  "generator-plugin-wp": {
+    "name": "Term Debt Consolidator",
+    "homepage": "https://labs.inn.org",
+    "description": "TDC evaluates your tags and categories, suggests consolidations and helps identify ways to improve your use of WordPress' built-in taxonomies.",
+    "version": "1.0.0",
+    "author": "innlabs",
+    "authoremail": "labs@inn.org",
+    "authorurl": "https://labs.inn.org",
+    "license": "GPLv2",
+    "slug": "term-debt-consolidator",
+    "classname": "Term_Debt_Consolidator",
+    "mainclassname": "Term_Debt_Consolidator",
+    "classprefix": "TDC_",
+    "prefix": "term_debt_consolidator",
+    "year": 2017,
+    "currentVersionWP": "4.7.2"
+  }
+}

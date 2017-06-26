@@ -1,0 +1,18 @@
+{
+  "name": "term-debt-consolidator",
+  "description": "TDC evaluates your tags and categories, suggests consolidations and helps identify ways to improve your use of WordPress' built-in taxonomies.",
+  "license": "GPLv2",
+  "authors": [
+    "innlabs"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
