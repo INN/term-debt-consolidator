@@ -50,18 +50,3 @@ function tdc_plugin_activate() {
 		) ENGINE=InnoDB;");
 }
 register_activation_hook( __FILE__, 'tdc_plugin_activate' );
-
-/**
- * Add the TDC admin menu
- */
-function tdc_admin_menu() {
-	add_menu_page(
-		'Term Debt Consolidator',
-		'Term Debt Consolidator',
-		'edit_posts',
-		'tdc-suggestions',
-		'tdc_suggestions_page',
-		'dashicons-networking'
-	);
-}
-add_action('admin_menu', 'tdc_admin_menu');
