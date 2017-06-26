@@ -6,8 +6,6 @@
  * @package Term_Debt_Consolidator
  */
 
-require_once dirname( __FILE__ ) . '/../vendor/cmb2/init.php';
-
 /**
  * Term Debt Consolidator Admin class.
  *
@@ -79,8 +77,6 @@ class TDC_Admin {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 
-		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
-
 	}
 
 	/**
@@ -106,52 +102,18 @@ class TDC_Admin {
 			array( $this, 'admin_page_display' ),
 			'dashicons-networking'
 		);
-
-		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
 	}
 
 	/**
-	 * Admin page markup. Mostly handled by CMB2.
+	 * Admin page markup.
 	 *
 	 * @since  1.0.0
 	 */
 	public function admin_page_display() {
 		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
+		<div class="wrap options-page <?php echo esc_attr( $this->key ); ?>">
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-			<?php cmb2_metabox_form( $this->metabox_id, $this->key ); ?>
 		</div>
 		<?php
-	}
-
-	/**
-	 * Add custom fields to the options page.
-	 *
-	 * @since  1.0.0
-	 */
-	public function add_options_page_metabox() {
-
-		// Add our CMB2 metabox.
-		$cmb = new_cmb2_box( array(
-			'id'         => $this->metabox_id,
-			'hookup'     => false,
-			'cmb_styles' => false,
-			'show_on'    => array(
-				// These are important, don't remove.
-				'key'   => 'options-page',
-				'value' => array( $this->key ),
-			),
-		) );
-
-		// Add your fields here.
-		$cmb->add_field( array(
-			'name'    => __( 'Test Text', 'term-debt-consolidator' ),
-			'desc'    => __( 'field description (optional)', 'term-debt-consolidator' ),
-			'id'      => 'test_text', // No prefix needed.
-			'type'    => 'text',
-			'default' => __( 'Default Text', 'term-debt-consolidator' ),
-		) );
-
 	}
 }
