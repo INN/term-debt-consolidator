@@ -22,6 +22,14 @@ class TDC_Ajax {
 	protected $plugin = null;
 
 	/**
+	 * Instance of TDC_Functions
+	 *
+	 * @since   1.0.0
+	 * @var     TDC_Functions
+	 */
+	protected $functions;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since  1.0.0
@@ -31,6 +39,8 @@ class TDC_Ajax {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
+
+		$this->functions = new TDC_Functions( $this );
 	}
 
 	/**
@@ -164,7 +174,7 @@ class TDC_Ajax {
 
 		$data = json_decode(stripslashes($_POST['request']), true);
 
-		$result = tdc_dismiss_suggestions_for_term($data['primary_term'], $data['taxonomy']);
+		$result = $this->functions->tdc_dismiss_suggestions_for_term($data['primary_term'], $data['taxonomy']);
 
 		if ( ! is_wp_error($result) ) {
 			print json_encode(array(
