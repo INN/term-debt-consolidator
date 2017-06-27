@@ -52,6 +52,14 @@ class TDC_Admin {
 	protected $options_page = '';
 
 	/**
+	 * Instance of TDC_Functions
+	 *
+	 * @since   1.0.0
+	 * @var     TDC_Functions
+	 */
+	protected $functions;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since  1.0.0
@@ -61,6 +69,8 @@ class TDC_Admin {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
+
+		$this->functions = new TDC_Functions( $this );
 
 		// Set our title.
 		$this->title = esc_attr__( 'Term Debt Consolidator', 'term-debt-consolidator' );
@@ -112,13 +122,13 @@ class TDC_Admin {
 	public function admin_page_display() {
 
 		$default = 'post_tag';
-		$enabled_taxonomies = TDC_Functions::tdc_enabled_taxonomies();
+		$enabled_taxonomies = $this->functions->tdc_enabled_taxonomies();
 
 		$existing = array();
 		$taxonomies = array();
 
 		foreach ( $enabled_taxonomies as $tax ) {
-			$dissmissed_for_tax = TDC_Functions::tdc_get_dismissed_suggestions( $tax );
+			$dissmissed_for_tax = $this->functions->tdc_get_dismissed_suggestions( $tax );
 			$existing[ $tax ] = ! empty( $dissmissed_for_tax );
 			$taxonomies[ $tax ] = get_taxonomy( $tax );
 		}
@@ -234,11 +244,12 @@ class TDC_Admin {
 			'tdc-suggestions',
 			plugins_url( '/assets/js/suggestions.js', dirname(__FILE__) ),
 			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
-			VERSION,
+			Term_Debt_Consolidator::VERSION,
 			true
 		);
 
-		if ( isset( $_GET['page'] ) && 'tdc-suggestions' === $_GET['page'] ) {
+		if ( isset( $_GET['page'] ) && 'term_debt_consolidator_admin' === $_GET['page'] ) {
+			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_style( 'tdc-common' );
 			wp_enqueue_script( 'tdc-suggestions' );
 		}
