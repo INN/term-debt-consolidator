@@ -236,21 +236,23 @@ class TDC_Admin {
 	public function enqueue_scripts() {
 		wp_register_style(
 			'tdc-common',
-			plugins_url( '/assets/css/style.css', dirname(__FILE__) ),
-			array( 'jquery-ui-core' )
+			plugins_url( '/assets/css/style.css', dirname( __FILE__ ) )
 		);
 
 		wp_register_script(
 			'tdc-suggestions',
-			plugins_url( '/assets/js/suggestions.js', dirname(__FILE__) ),
-			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
-			Term_Debt_Consolidator::VERSION,
+			plugins_url( '/assets/js/suggestions.js', dirname( __FILE__ ) ),
+false,
+//			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
+			'1.0',
 			true
 		);
 
 		if ( isset( $_GET['page'] ) && 'term_debt_consolidator_admin' === $_GET['page'] ) {
-			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_style( 'tdc-common' );
+			wp_enqueue_script( 'backbone' );
+			wp_enqueue_script( 'underscore' );
+			wp_enqueue_script( 'jquery-ui-progressbar' );
 			wp_enqueue_script( 'tdc-suggestions' );
 		}
 	}

@@ -34,7 +34,7 @@ const paths = {
 	'icons': 'assets/images/svg-icons/*.svg',
 	'images': [ 'assets/images/*', '!assets/images/*.svg' ],
 	'php': [ './*.php', './**/*.php' ],
-	'sass': 'assets/css/sass/*.scss',
+	'sass': 'assets/sass/*.scss',
 	'concat_scripts': 'assets/scripts/concat/*.js',
 	'scripts': [ 'assets/scripts/*.js', 'assets/js/*.js', '!assets/scripts/*.min.js', '!assets/js/*.min.js' ],
 	'sprites': 'assets/images/sprites/*.png'
@@ -74,7 +74,7 @@ gulp.task( 'clean:styles', () =>
  * https://www.npmjs.com/package/css-mqpacker
  */
 gulp.task( 'postcss', [ 'clean:styles' ], () =>
-	gulp.src( 'assets/css/sass/*.scss', paths.css )
+	gulp.src( 'assets/sass/*.scss', paths.css )
 
 		// Deal with errors.
 		.pipe( plumber( {'errorHandler': handleErrors} ) )
