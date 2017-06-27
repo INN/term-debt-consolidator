@@ -143,7 +143,7 @@ class TDC_Admin {
 		</div>
 
 		<script type="text/javascript">
-			var TDC = <?php echo json_encode(tdc_json_obj(array('taxonomy' => 'post_tag'))); ?>;
+			var TDC = <?php echo json_encode( tdc_json_obj( array( 'taxonomy' => 'post_tag' ) ) ); ?>;
 		</script>
 
 		<script type="text/template" id="tdc-suggestion-tmpl">
