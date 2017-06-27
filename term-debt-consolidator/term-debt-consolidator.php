@@ -42,6 +42,7 @@
 require 'includes/class-functions.php';
 require 'includes/class-admin.php';
 require 'includes/class-suggestions.php';
+require 'includes/class-ajax.php';
 
 /**
  * Main initiation class.
@@ -123,6 +124,14 @@ final class Term_Debt_Consolidator {
 	protected $functions;
 
 	/**
+	 * Instance of TDC_Ajax
+	 *
+	 * @since1.0.0
+	 * @var TDC_Ajax
+	 */
+	protected $ajax;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since   1.0.0
@@ -157,6 +166,7 @@ final class Term_Debt_Consolidator {
 		$this->admin = new TDC_Admin( $this );
 		$this->suggestions = new TDC_Suggestions( $this );
 		$this->functions = new TDC_Functions( $this );
+		$this->ajax = new TDC_Ajax( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -328,6 +338,7 @@ final class Term_Debt_Consolidator {
 			case 'admin':
 			case 'suggestions':
 			case 'functions':
+			case 'ajax':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
