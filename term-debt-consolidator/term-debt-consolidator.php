@@ -39,6 +39,7 @@
 
 
 // Include additional php files here.
+require 'includes/class-functions.php';
 require 'includes/class-admin.php';
 require 'includes/class-suggestions.php';
 
@@ -114,6 +115,14 @@ final class Term_Debt_Consolidator {
 	protected $suggestions;
 
 	/**
+	 * Instance of TDC_Functions
+	 *
+	 * @since1.0.0
+	 * @var TDC_Functions
+	 */
+	protected $functions;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since   1.0.0
@@ -147,6 +156,7 @@ final class Term_Debt_Consolidator {
 
 		$this->admin = new TDC_Admin( $this );
 		$this->suggestions = new TDC_Suggestions( $this );
+		$this->functions = new TDC_Functions( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -304,6 +314,7 @@ final class Term_Debt_Consolidator {
 			case 'path':
 			case 'admin':
 			case 'suggestions':
+			case 'functions':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
