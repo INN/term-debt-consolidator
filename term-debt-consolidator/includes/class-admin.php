@@ -240,7 +240,7 @@ class TDC_Admin {
 
 		wp_register_script(
 			'tdc-suggestions',
-			plugins_url( '/assets/js/suggestions/js', dirname(__FILE__) ),
+			plugins_url( '/assets/js/suggestions.js', dirname(__FILE__) ),
 			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
 			VERSION,
 			true
