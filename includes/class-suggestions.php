@@ -61,14 +61,14 @@ class TDC_Suggestions {
 	 * @since  1.0.0
 	 */
 	public function hooks() {
-		add_filter( 'list_terms_exclusions', 'tdc_list_terms_exclusions', 99, 3 );
+		add_filter( 'list_terms_exclusions', array( $this, 'tdc_list_terms_exclusions' ), 99, 3 );
 	}
 
 	/**
 	 * Modify the get_terms SQL query to get excluded term_ids from the tdc_dismissed_suggestions
 	 * table.
 	 */
-	function tdc_list_terms_exclusions( $exclusions, $args, $taxonomies ) {
+	public function tdc_list_terms_exclusions( $exclusions, $args, $taxonomies ) {
 		if ( isset( $args['tdc'] ) ) {
 			global $wpdb;
 			$ret = " AND t.term_id NOT IN (SELECT tdcds.term_id from " .
