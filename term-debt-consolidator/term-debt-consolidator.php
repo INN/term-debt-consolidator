@@ -183,6 +183,19 @@ final class Term_Debt_Consolidator {
 			return;
 		}
 
+		global $wpdb;
+
+		$dismissed_suggestions_table = $wpdb->prefix . "tdc_dismissed_suggestions";
+
+		$result = $wpdb->query("
+			CREATE TABLE IF NOT EXISTS `" . $dismissed_suggestions_table . "` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`term_id` bigint(20) unsigned NOT NULL,
+				`taxonomy` varchar(450) NOT NULL,
+				PRIMARY KEY (`id`),
+				UNIQUE KEY `term_id` (`term_id`)
+			) ENGINE=InnoDB;");
+
 		// Make sure any rewrite functionality has been loaded.
 		flush_rewrite_rules();
 	}
