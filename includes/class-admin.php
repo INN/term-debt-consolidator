@@ -236,7 +236,7 @@ class TDC_Admin {
 	public function enqueue_scripts() {
 		wp_register_style(
 			'tdc-common',
-			plugins_url( '/assets/css/style.css', dirname( __FILE__ ) )
+			plugins_url( 'style.css', dirname( __FILE__ ) )
 		);
 
 		wp_register_script(
