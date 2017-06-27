@@ -12,7 +12,7 @@ function tdc_ajax_generate_consolidation_suggestions() {
 
 	if (isset($_POST['request'])) {
 		$data = json_decode(stripslashes($_POST['request']), true);
-		$query = new SuggestionsQuery($data['taxonomy']);
+		$query = new TDC_Suggestions( $this, $data['taxonomy'] );
 
 		$suggestions = $query->getSuggestions($data['page']);
 
@@ -38,7 +38,7 @@ function tdc_ajax_get_consolidation_suggestions() {
 
 	if (isset($_POST['request'])) {
 		$data = json_decode(stripslashes($_POST['request']), true);
-		$query = new SuggestionsQuery($data['taxonomy'], array('number' => 10));
+		$query = new TDC_Suggestions( $this, $data['taxonomy'], array('number' => 10));
 
 		$suggestions = $query->getSuggestions($data['page']);
 
