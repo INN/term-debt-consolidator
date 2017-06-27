@@ -1,0 +1,93 @@
+/**
+ * Term Debt Consolidator
+ * https://labs.inn.org
+ *
+ * Copyright (c) 2017 innlabs
+ * Licensed under the GPLv2+ license.
+ */
+.tdc-preamble {
+  max-width: 700px;
+}
+
+.tdc-preamble p {
+  font-size: 16px;
+}
+
+#tdc-suggestions .spinner {
+  float: none;
+  position: relative;
+  top: -2px;
+}
+
+#tdc-suggestions .tdc-suggestion {
+  border-bottom: 1px solid #ccc;
+  padding: 12px 12px 0;
+  max-width: 700px;
+}
+
+#tdc-suggestions .tdc-suggestion:nth-child(odd) {
+  background: #ddd;
+}
+
+#tdc-suggestions .tdc-suggestion li {
+  margin-bottom: 10px;
+}
+
+#tdc-suggestions .tdc-suggestion li .tdc-term-actions {
+  margin: 4px 0 0 0;
+}
+
+.tdc-make-primary-indicator,
+.tdc-primary-term {
+  font-size: 12px;
+}
+
+.tdc-primary-term-indicator {
+  font-style: italic;
+  color: #888;
+}
+
+.tdc-term {
+  font-size: 16px;
+}
+
+.tdc-term-actions li span.dashicons {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.tdc-suggestion-actions ul li {
+  margin-right: 6px;
+  line-height: 28px;
+}
+
+.tdc-suggestion-actions ul li,
+ul.tdc-term-actions li {
+  display: inline-block;
+}
+
+#tdc-pagination-container {
+  margin-top: 20px;
+}
+
+.tdc-post-count {
+  font-size: 14px;
+  font-style: italic;
+  color: #888;
+}
+
+.tdc-generate-suggestions-progress {
+  margin: 20px 0;
+  display: none;
+}
+
+#tdc-fetching-suggestions .fetching {
+  display: none;
+}
+
+#tdc-suggestions-request {
+  margin-bottom: 20px;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0eWxlcy5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7R0FNRztBQUVIO0VBQ0MsaUJBQWdCO0NBS2hCOztBQU5EO0VBSUUsZ0JBQWU7Q0FDZjs7QUFHRjtFQUVFLFlBQVc7RUFDWCxtQkFBa0I7RUFDbEIsVUFBUztDQUNUOztBQUxGO0VBUUUsOEJBQTZCO0VBQzdCLHFCQUFvQjtFQUNwQixpQkFBZ0I7Q0FhaEI7O0FBdkJGO0VBYUcsaUJBQWdCO0NBQ2hCOztBQWRIO0VBaUJHLG9CQUFtQjtDQUtuQjs7QUF0Qkg7RUFvQkksa0JBQWlCO0NBQ2pCOztBQUtKOztFQUVDLGdCQUFlO0NBQ2Y7O0FBRUQ7RUFDQyxtQkFBa0I7RUFDbEIsWUFBVztDQUNYOztBQUVEO0VBQ0MsZ0JBQWU7Q0FDZjs7QUFFRDtFQUNDLGdCQUFlO0VBQ2YsWUFBVztFQUNYLGFBQVk7Q0FDWjs7QUFFRDtFQUNDLGtCQUFpQjtFQUNqQixrQkFBaUI7Q0FDakI7O0FBRUQ7O0VBRUMsc0JBQXFCO0NBQ3JCOztBQUVEO0VBQ0MsaUJBQWdCO0NBQ2hCOztBQUVEO0VBQ0MsZ0JBQWU7RUFDZixtQkFBa0I7RUFDbEIsWUFBVztDQUNYOztBQUVEO0VBQ0MsZUFBYztFQUNkLGNBQWE7Q0FDYjs7QUFFRDtFQUNDLGNBQWE7Q0FDYjs7QUFFRDtFQUNDLG9CQUFtQjtDQUNuQiIsImZpbGUiOiJzdHlsZXMuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyoqXG4gKiBUZXJtIERlYnQgQ29uc29saWRhdG9yXG4gKiBodHRwczovL2xhYnMuaW5uLm9yZ1xuICpcbiAqIENvcHlyaWdodCAoYykgMjAxNyBpbm5sYWJzXG4gKiBMaWNlbnNlZCB1bmRlciB0aGUgR1BMdjIrIGxpY2Vuc2UuXG4gKi9cblxuLnRkYy1wcmVhbWJsZSB7XG5cdG1heC13aWR0aDogNzAwcHg7XG5cblx0cCB7XG5cdFx0Zm9udC1zaXplOiAxNnB4O1xuXHR9XG59XG5cbiN0ZGMtc3VnZ2VzdGlvbnMge1xuXHQuc3Bpbm5lciB7XG5cdFx0ZmxvYXQ6IG5vbmU7XG5cdFx0cG9zaXRpb246IHJlbGF0aXZlO1xuXHRcdHRvcDogLTJweDtcblx0fVxuXG5cdC50ZGMtc3VnZ2VzdGlvbiB7XG5cdFx0Ym9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNjY2M7XG5cdFx0cGFkZGluZzogMTJweCAxMnB4IDA7XG5cdFx0bWF4LXdpZHRoOiA3MDBweDtcblxuXHRcdCY6bnRoLWNoaWxkKG9kZCkge1xuXHRcdFx0YmFja2dyb3VuZDogI2RkZDtcblx0XHR9XG5cblx0XHRsaSB7XG5cdFx0XHRtYXJnaW4tYm90dG9tOiAxMHB4O1xuXG5cdFx0XHQudGRjLXRlcm0tYWN0aW9ucyB7XG5cdFx0XHRcdG1hcmdpbjogNHB4IDAgMCAwO1xuXHRcdFx0fVxuXHRcdH1cblx0fVxufVxuXG4udGRjLW1ha2UtcHJpbWFyeS1pbmRpY2F0b3IsXG4udGRjLXByaW1hcnktdGVybSB7XG5cdGZvbnQtc2l6ZTogMTJweDtcbn1cblxuLnRkYy1wcmltYXJ5LXRlcm0taW5kaWNhdG9yIHtcblx0Zm9udC1zdHlsZTogaXRhbGljO1xuXHRjb2xvcjogIzg4ODtcbn1cblxuLnRkYy10ZXJtIHtcblx0Zm9udC1zaXplOiAxNnB4O1xufVxuXG4udGRjLXRlcm0tYWN0aW9ucyBsaSBzcGFuLmRhc2hpY29ucyB7XG5cdGZvbnQtc2l6ZTogMTRweDtcblx0d2lkdGg6IDE0cHg7XG5cdGhlaWdodDogMTRweDtcbn1cblxuLnRkYy1zdWdnZXN0aW9uLWFjdGlvbnMgdWwgbGkge1xuXHRtYXJnaW4tcmlnaHQ6IDZweDtcblx0bGluZS1oZWlnaHQ6IDI4cHg7XG59XG5cbi50ZGMtc3VnZ2VzdGlvbi1hY3Rpb25zIHVsIGxpLFxudWwudGRjLXRlcm0tYWN0aW9ucyBsaSB7XG5cdGRpc3BsYXk6IGlubGluZS1ibG9jaztcbn1cblxuI3RkYy1wYWdpbmF0aW9uLWNvbnRhaW5lciB7XG5cdG1hcmdpbi10b3A6IDIwcHg7XG59XG5cbi50ZGMtcG9zdC1jb3VudCB7XG5cdGZvbnQtc2l6ZTogMTRweDtcblx0Zm9udC1zdHlsZTogaXRhbGljO1xuXHRjb2xvcjogIzg4ODtcbn1cblxuLnRkYy1nZW5lcmF0ZS1zdWdnZXN0aW9ucy1wcm9ncmVzcyB7XG5cdG1hcmdpbjogMjBweCAwO1xuXHRkaXNwbGF5OiBub25lO1xufVxuXG4jdGRjLWZldGNoaW5nLXN1Z2dlc3Rpb25zIC5mZXRjaGluZyB7XG5cdGRpc3BsYXk6IG5vbmU7XG59XG5cbiN0ZGMtc3VnZ2VzdGlvbnMtcmVxdWVzdCB7XG5cdG1hcmdpbi1ib3R0b206IDIwcHg7XG59XG4iXX0= */
