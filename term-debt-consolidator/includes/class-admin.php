@@ -110,6 +110,18 @@ class TDC_Admin {
 	 * @since  1.0.0
 	 */
 	public function admin_page_display() {
+
+		$default = 'post_tag';
+		$enabled_taxonomies = tdc_enabled_taxonomies();
+
+		$existing = array();
+		$taxonomies = array();
+
+		foreach ( $enabled_taxonomies as $tax ) {
+			$dissmissed_for_tax = tdc_get_dismissed_suggestions( $tax );
+			$existing[ $tax ] = ! empty( $dissmissed_for_tax );
+			$taxonomies[ $tax ] = get_taxonomy( $tax );
+		}
 		?>
 		<div id="tdc-suggestions" class="wrap options-page <?php echo esc_attr( $this->key ); ?>">
 			<h2>Term Debt Consolidator Suggestions</h2>
