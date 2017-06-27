@@ -74,7 +74,7 @@ gulp.task( 'clean:styles', () =>
  * https://www.npmjs.com/package/css-mqpacker
  */
 gulp.task( 'postcss', [ 'clean:styles' ], () =>
-	gulp.src( 'assets/sass/*.scss', paths.css )
+	gulp.src( 'assets/css/sass/*.scss', paths.css )
 
 		// Deal with errors.
 		.pipe( plumber( {'errorHandler': handleErrors} ) )
