@@ -48,11 +48,11 @@ class TDC_Functions {
 	 * @since 0.1
 	 */
 	public function tdc_json_obj( $more = array() ) {
-		$enabled_taxonomies = tdc_enabled_taxonomies();
+		$enabled_taxonomies = $this->tdc_enabled_taxonomies();
 
 		$existing = array();
 		foreach ( $enabled_taxonomies as $tax ) {
-			$dissmissed_for_tax = tdc_get_dismissed_suggestions( $tax );
+			$dissmissed_for_tax = $this->tdc_get_dismissed_suggestions( $tax );
 			$existing[ $tax ] = ! empty( $dissmissed_for_tax );
 		}
 

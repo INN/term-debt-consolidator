@@ -165,7 +165,7 @@ class TDC_Admin {
 		</div>
 
 		<script type="text/javascript">
-			var TDC = <?php echo json_encode( tdc_json_obj( array( 'taxonomy' => 'post_tag' ) ) ); ?>;
+			var TDC = <?php echo json_encode( $this->functions->tdc_json_obj( array( 'taxonomy' => 'post_tag' ) ) ); ?>;
 		</script>
 
 		<script type="text/template" id="tdc-suggestion-tmpl">
@@ -236,14 +236,13 @@ class TDC_Admin {
 	public function enqueue_scripts() {
 		wp_register_style(
 			'tdc-common',
-			plugins_url( 'style.css', dirname( __FILE__ ) )
+			plugins_url( 'styles.css', dirname( __FILE__ ) )
 		);
 
 		wp_register_script(
 			'tdc-suggestions',
 			plugins_url( '/assets/js/suggestions.js', dirname( __FILE__ ) ),
-false,
-//			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
+			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
 			'1.0',
 			true
 		);
