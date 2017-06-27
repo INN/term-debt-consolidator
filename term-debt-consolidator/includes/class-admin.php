@@ -225,17 +225,9 @@ class TDC_Admin {
 
 	public function enqueue_scripts() {
 		wp_register_style(
-			'tdc-admin-ui-css',
-			plugins_url( '/assets/css/jquery-ui.css', dirname(__FILE__) ),
-			plugins_url( dirname(__FILE__) ),
-			'',
-			VERSION,
-		);
-
-		wp_register_style(
 			'tdc-common',
 			plugins_url( '/assets/css/style.css', dirname(__FILE__) ),
-			array( 'tdc-admin-ui-css' )
+			array( 'jquery-ui-core' )
 		);
 
 		wp_register_script(
