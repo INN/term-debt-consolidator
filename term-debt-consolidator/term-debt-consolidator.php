@@ -40,6 +40,7 @@
 
 // Include additional php files here.
 require 'includes/class-admin.php';
+require 'includes/class-suggestions.php';
 
 /**
  * Main initiation class.
@@ -105,6 +106,14 @@ final class Term_Debt_Consolidator {
 	protected $admin;
 
 	/**
+	 * Instance of TDC_Suggestions
+	 *
+	 * @since1.0.0
+	 * @var TDC_Suggestions
+	 */
+	protected $suggestions;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since   1.0.0
@@ -137,6 +146,7 @@ final class Term_Debt_Consolidator {
 	public function plugin_classes() {
 
 		$this->admin = new TDC_Admin( $this );
+		$this->suggestions = new TDC_Suggestions( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -293,6 +303,7 @@ final class Term_Debt_Consolidator {
 			case 'url':
 			case 'path':
 			case 'admin':
+			case 'suggestions':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
