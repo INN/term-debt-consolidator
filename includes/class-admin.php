@@ -112,13 +112,13 @@ class TDC_Admin {
 	public function admin_page_display() {
 
 		$default = 'post_tag';
-		$enabled_taxonomies = tdc_enabled_taxonomies();
+		$enabled_taxonomies = TDC_Functions::tdc_enabled_taxonomies();
 
 		$existing = array();
 		$taxonomies = array();
 
 		foreach ( $enabled_taxonomies as $tax ) {
-			$dissmissed_for_tax = tdc_get_dismissed_suggestions( $tax );
+			$dissmissed_for_tax = TDC_Functions::tdc_get_dismissed_suggestions( $tax );
 			$existing[ $tax ] = ! empty( $dissmissed_for_tax );
 			$taxonomies[ $tax ] = get_taxonomy( $tax );
 		}
