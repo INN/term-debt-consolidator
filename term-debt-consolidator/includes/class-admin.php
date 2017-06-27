@@ -76,7 +76,7 @@ class TDC_Admin {
 		// Hook in our actions to the admin.
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
-
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -221,5 +221,34 @@ class TDC_Admin {
 			</div>
 		</script>
 		<?php
+	}
+
+	public function enqueue_scripts() {
+		wp_register_style(
+			'tdc-admin-ui-css',
+			plugins_url( '/assets/css/jquery-ui.css', dirname(__FILE__) ),
+			plugins_url( dirname(__FILE__) ),
+			'',
+			VERSION,
+		);
+
+		wp_register_style(
+			'tdc-common',
+			plugins_url( '/assets/css/style.css', dirname(__FILE__) ),
+			array( 'tdc-admin-ui-css' )
+		);
+
+		wp_register_script(
+			'tdc-suggestions',
+			plugins_url( '/assets/js/suggestions/js', dirname(__FILE__) ),
+			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
+			VERSION,
+			true
+		);
+
+		if ( isset( $_GET['page'] ) && 'tdc-suggestions' === $_GET['page'] ) {
+			wp_enqueue_style( 'tdc-common' );
+			wp_enqueue_script( 'tdc-suggestions' );
+		}
 	}
 }
