@@ -122,7 +122,10 @@ class TDC_Suggestions {
 		// Calculate the Levenshtein Distance between the two terms
 		$distance = levenshtein( $a, $b );
 
+		// Are these words similar?
 		if ( $distance >= 0 && $distance <= 2 ) {
+
+			// Do the words also sound similar?
 			if ( metaphone( $a, 2 ) === metaphone( $b, 2 ) ) {
 				return true;
 			}
