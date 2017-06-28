@@ -85,12 +85,18 @@ class TDC_Suggestions {
 		return get_terms( array( $this->taxonomy ), $this->options );
 	}
 
-	public function termsAreSimilar( $a, $b ) {
-		$distance = levenshtein( $a, $b );
-		$a_metaphone_key = metaphone( $a, 2 );
+	/**
+	 * Determine how similar two terms are.
+	 *
+	 * @since 0.1
+	 */
+	public function are_terms_similar( $a, $b ) {
 
-		if ( $distance <= 2 && $distance >= 0 ) {
-			if ( metaphone( $b, 2 ) == $a_metaphone_key ) {
+		// Calculate the Levenshtein Distance between the two terms
+		$distance = levenshtein( $a, $b );
+
+		if ( $distance >= 0 && $distance <= 2 ) {
+			if ( metaphone( $a, 2 ) === metaphone( $b, 2 ) ) {
 				return true;
 			}
 		}
@@ -105,7 +111,7 @@ class TDC_Suggestions {
 				continue;
 			}
 
-			if ( $this->termsAreSimilar( $term->name, $term_to_consider->name ) ) {
+			if ( $this->are_terms_similar( $term->name, $term_to_consider->name ) ) {
 				$term_to_consider->url = get_term_link( $term_to_consider, $this->taxonomy );
 				$term_to_consider->edit_url = edit_term_link( 'Edit', '', '', $term_to_consider, false );
 				$similar[] = $term_to_consider;
