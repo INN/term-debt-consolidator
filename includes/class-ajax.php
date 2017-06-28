@@ -67,7 +67,7 @@ class TDC_Ajax {
 			$data = json_decode(stripslashes($_POST['request']), true);
 			$query = new TDC_Suggestions( $this, $data['taxonomy'] );
 
-			$suggestions = $query->getSuggestions($data['page']);
+			$suggestions = $query->get_suggestions($data['page']);
 
 			print json_encode(array(
 				"success" => true,
@@ -92,7 +92,7 @@ class TDC_Ajax {
 			$data = json_decode(stripslashes($_POST['request']), true);
 			$query = new TDC_Suggestions( $this, $data['taxonomy'], array('number' => 10));
 
-			$suggestions = $query->getSuggestions($data['page']);
+			$suggestions = $query->get_suggestions($data['page']);
 
 			print json_encode(array(
 				"success" => true,
