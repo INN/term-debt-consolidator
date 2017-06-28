@@ -126,14 +126,13 @@ class TDC_Functions {
 	 * @since 0.1
 	 */
 	public function tdc_enabled_taxonomies() {
+
 		$taxonomies = apply_filters( 'tdc_enabled_taxonomies', array( 'post_tag', 'category' ) );
 
-		// Post tags must always be enabled for now
-		$existing = array('post_tag');
-		foreach ( $taxonomies as $tax ) {
-			// Only allow taxonomies that actually exist
-			if ( taxonomy_exists( $tax ) ) {
-				$existing[] = $tax;
+		// Check if taxonomies exist, remove any that don't
+		foreach ( $taxonomies as $key => $tax ) {
+			if ( ! taxonomy_exists( $tax ) ) {
+				unset( $taxonomies[$key] );
 			}
 		}
 
