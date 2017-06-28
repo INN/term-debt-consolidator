@@ -80,9 +80,36 @@ class TDC_Suggestions {
 		}
 	}
 
-	public function getTerms( $page = 1 ) {
+	public function get_suggestions( $page = 1 ) {
 		$this->options['offset'] = (int) ( ( $page - 1 ) * $this->options['number'] );
-		return get_terms( array( $this->taxonomy ), $this->options );
+		$terms = get_terms( array( $this->taxonomy ), $this->options );
+		$groups = array();
+
+		if ( empty( $terms ) ) {
+			return false;
+		}
+
+		foreach ( $terms as $idx => $term ) {
+			$term->url = get_term_link( $term, $this->taxonomy );
+			$term->edit_url = edit_term_link( 'Edit', '', '', $term, false );
+			$similar = $this->getSuggestionsForTerm( $term );
+
+			if ( count( $similar ) <= 1 && $this->options['autoDismiss'] ) {
+				tdc_dismiss_suggestions_for_term( $term->term_id, $this->taxonomy );
+				continue;
+			}
+
+			usort( $similar, array( $this, 'sortByCount' ) );
+			$groups[] = $similar;
+		}
+
+		$results = array(
+			'groups' => $groups,
+			'page' => $page,
+			'totalPages' => ceil( count( $this->all_terms ) / $this->options['number'] )
+		);
+
+		return $results;
 	}
 
 	/**
@@ -119,37 +146,6 @@ class TDC_Suggestions {
 		}
 
 		return $similar;
-	}
-
-	public function getSuggestions( $page = 1 ) {
-		$terms = $this->getTerms( $page );
-		$groups = array();
-
-		if ( empty( $terms ) ) {
-			return false;
-		}
-
-		foreach ( $terms as $idx => $term ) {
-			$term->url = get_term_link( $term, $this->taxonomy );
-			$term->edit_url = edit_term_link( 'Edit', '', '', $term, false );
-			$similar = $this->getSuggestionsForTerm( $term );
-
-			if ( count( $similar ) <= 1 && $this->options['autoDismiss'] ) {
-				tdc_dismiss_suggestions_for_term( $term->term_id, $this->taxonomy );
-				continue;
-			}
-
-			usort( $similar, array( $this, 'sortByCount' ) );
-			$groups[] = $similar;
-		}
-
-		$results = array(
-			'groups' => $groups,
-			'page' => $page,
-			'totalPages' => ceil( count( $this->all_terms ) / $this->options['number'] )
-		);
-
-		return $results;
 	}
 
 	public function sortByCount( $a, $b ) {
