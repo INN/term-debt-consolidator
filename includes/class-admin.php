@@ -231,6 +231,7 @@ class TDC_Admin {
 			</div>
 		</script>
 		<?php
+		$suggestions = new TDC_Suggestions( 'term-debt-consolidator', 'post_tag' );
 	}
 
 	public function enqueue_scripts() {
