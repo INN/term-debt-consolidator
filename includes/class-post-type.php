@@ -52,7 +52,7 @@ class TDC_Post_Type {
 			'label'                 => __( 'Term Debt Consolidator Recommendations', 'term_debt_consolidator' ),
 			'labels'                => $labels,
 			'supports'              => array( ),
-			'taxonomies'            => array( 'category', 'post_tag' ),
+			'taxonomies'            => apply_filters( 'tdc_enabled_taxonomies', array( 'category', 'post_tag' ) ),
 			'hierarchical'          => false,
 			'public'                => false,
 			'show_in_rest'          => true,
@@ -66,7 +66,7 @@ class TDC_Post_Type {
 			'publicly_queryable'    => true,
 			'capability_type'       => 'page',
 		);
-		register_post_type( 'term_consolidate_rec', $args );
+		register_post_type( 'tdc_recommendations', $args );
 
 	}
 }
