@@ -136,6 +136,6 @@ class TDC_Functions {
 			}
 		}
 
-		return $existing;
+		return $taxonomies;
 	}
 }
