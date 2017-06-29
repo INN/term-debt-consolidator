@@ -1,4 +1,11 @@
-var TDC = TDC || { suggestions: [] };
+/**
+ * Term Debt Consolidator
+ * https://labs.inn.org
+ *
+ * Licensed under the GPLv2+ license.
+ */
+
+ var TDC = TDC || { suggestions: [] };
 
 (function() {
   var $ = jQuery;
