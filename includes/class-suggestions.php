@@ -22,6 +22,14 @@ class TDC_Suggestions {
 	protected $plugin = null;
 
 	/**
+	 * Instance of TDC_Functions
+	 *
+	 * @since   1.0.0
+	 * @var     TDC_Functions
+	 */
+	protected $functions;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since  1.0.0
@@ -31,6 +39,8 @@ class TDC_Suggestions {
 	public function __construct( $plugin, $taxonomy = 'category', $options = array() ) {
 		$this->plugin = $plugin;
 		$this->hooks();
+
+		$this->functions = new TDC_Functions( $this );
 
 		$this->taxonomy = $taxonomy;
 		$defaults = apply_filters( 'tdc_default_get_terms_args', array(
@@ -95,7 +105,7 @@ class TDC_Suggestions {
 			$similar = $this->getSuggestionsForTerm( $term );
 
 			if ( count( $similar ) <= 1 && $this->options['autoDismiss'] ) {
-				tdc_dismiss_suggestions_for_term( $term->term_id, $this->taxonomy );
+				$this->functions->tdc_dismiss_suggestions_for_term( $term->term_id, $this->taxonomy );
 				continue;
 			}
 
