@@ -30,7 +30,9 @@ class TDC_Suggestions_Test extends WP_UnitTestCase {
 	 *
 	 * @since  1.0.0
 	 */
-	function test_sample() {
-		$this->assertTrue( true );
+	function test_are_terms_similar() {
+		$suggesions = new TDC_Suggestions( 'term-debt-consolidator' );
+		$this->assertTrue( $suggesions->are_terms_similar( 'color', 'Colour' ) );
+		$this->assertFalse( $suggesions->are_terms_similar( 'apple', 'Orange' ) );
 	}
 }
