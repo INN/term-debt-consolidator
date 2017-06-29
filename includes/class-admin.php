@@ -151,7 +151,7 @@ class TDC_Admin {
 			</div>
 
 			<div id="tdc-suggestions-request">
-				<a class="tdc-generate-suggestions button button-primary" href="#"><?php if ( $existing[$default] ) { ?>Regenerate<?php } else { ?>Generate<?php } ?> suggestions</a>
+				<a class="tdc-generate-suggestions button button-primary" href="#"><?php if ( $existing[ $default ] ) { ?>Regenerate<?php } else { ?>Generate<?php } ?> suggestions</a>
 				<span class="spinner"></span>
 				<div class="tdc-generate-suggestions-progress"></div>
 			</div>
