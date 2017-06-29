@@ -63,17 +63,17 @@ class TDC_Ajax {
 	public function generate_consolidation_suggestions() {
 		check_ajax_referer('tdc_ajax_nonce', 'security');
 
-		if (isset($_POST['request'])) {
-			$data = json_decode(stripslashes($_POST['request']), true);
+		if ( isset( $_POST['request'] ) ) {
+			$data = json_decode( stripslashes( $_POST['request'] ), true);
 			$query = new TDC_Suggestions( $this, $data['taxonomy'] );
 
-			$suggestions = $query->get_suggestions($data['page']);
+			$suggestions = $query->get_suggestions( $data['page'] );
 
-			print json_encode(array(
+			print json_encode( array(
 				"success" => true,
 				"suggestions" => $suggestions,
 				"original" => $data
-			));
+			) );
 			wp_die();
 		} else {
 			throw new Exception('Must specify a taxonomy to get suggestions.');
