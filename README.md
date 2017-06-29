@@ -1,4 +1,7 @@
 # Term Debt Consolidator #
+
+[![Build Status](https://api.travis-ci.org/INN/term-debt-consolidator.svg?branch=master)](https://travis-ci.org/INN/term-debt-consolidator)
+
 **Contributors:**      innlabs  
 **Donate link:**       https://labs.inn.org  
 **Tags:**              taxonomy, tags, categories, consolidation
