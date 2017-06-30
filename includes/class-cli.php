@@ -77,11 +77,10 @@ class TDC_Cli {
 	}
 
 	/**
-	 * Create a method stub for our first CLI command.
+	 * Reprocess recommendations
 	 *
 	 * @since 1.0.0
 	 */
 	public function reprocess_recommendations() {
-
 	}
 }

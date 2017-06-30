@@ -209,7 +209,10 @@ class TDC_Functions {
 
 	}
 
-
+	/**
+	 * @TODO check for similarities any time a term is added (new) or updated (existing)
+	 * @TODO migrate functions for combining terms -> add functionality to consolidate to designated term
+	 */
 
 
 
