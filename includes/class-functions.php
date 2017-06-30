@@ -42,9 +42,13 @@ class TDC_Functions {
 
 	}
 
-	/*
-	 * @TODO add params to docblocks
-	*/
+	/**
+	 * Check existing terms (for use on activation)
+	 *
+	 * @since	1.0.0
+	 *
+	 * @param	$hide_empty		bool	Setting this variable to true will ignore terms that aren't attached to any posts
+	 */
 	public function review_existing_terms( $hide_empty = false ) {
 		$status = get_option( 'tdc_status' );
 
@@ -85,8 +89,13 @@ class TDC_Functions {
 		update_option( 'tdc_status', $status );
 	}
 
-	/*
+	/**
 	 * Review all other terms in taxonomy for similar terms
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param	$term				object	object for current term
+	 * @param	$all_terms_in_tax	object	array of term object to compare to
 	 */
 	public function get_similar_terms( $term, $all_terms_in_tax ) {
 
@@ -108,6 +117,14 @@ class TDC_Functions {
 		$this->create_recommendation( $term, $similar_terms );
 	}
 
+	/**
+	 * Compare two terms to determine if they are related
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param	$term				string	Term string
+	 * @param	$term_to_compare	string	Term string to compare to
+	 */
 	public function are_terms_similar( $term, $term_to_compare ) {
 		// Calculate the Levenshtein Distance between the two terms
 		$distance = levenshtein( $term, $term_to_compare );
@@ -124,6 +141,14 @@ class TDC_Functions {
 
 	}
 
+	/**
+	 * Create or update a recommendation for term consolidation
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param	$term			object	Term object
+	 * @param	$similar_terms	array	Array of term ids for similar terms
+	 */
 	public function create_recommendation( $term, $similar_terms ) {
 
 		// Build array of similar terms
