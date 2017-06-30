@@ -135,7 +135,8 @@ class TDC_Admin {
 		?>
 		<div id="tdc-suggestions" class="wrap options-page <?php echo esc_attr( $this->key ); ?>">
 			<h2>Term Debt Consolidator Suggestions</h2>
-
+			<?php $this->functions->review_existing_terms(); ?>
+<?php /*
 			<div class="tdc-preamble">
 				<p>Term Debt Consolidator looks at your site's tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.</p>
 				<p>Keep in mind that this process is imperfect and may make nonsensical suggestions from time to time. It's up to you to review the suggestions and approve or deny them.</p>
@@ -231,6 +232,7 @@ class TDC_Admin {
 			</div>
 		</script>
 		<?php
+*/
 	}
 
 	public function enqueue_scripts() {

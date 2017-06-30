@@ -42,6 +42,159 @@ class TDC_Functions {
 
 	}
 
+	/*
+	 * @TODO add params to docblocks
+	*/
+	public function review_existing_terms( $hide_empty = false ) {
+		$status = get_option( 'tdc_status' );
+
+		$taxonomies = apply_filters( 'tdc_enabled_taxonomies', array( 'category', 'post_tag' ) );
+		foreach ( $taxonomies as $taxonomy ) {
+
+			/*
+			 * $status[ $taxonomy ] contains the largest term ID we've reviewed in this taxonomy.
+			 * Skipping all IDs < or = this number prevents re-processing
+			 */
+			$skip = isset( $status[ $taxonomy ] ) ? $status[ $taxonomy ] : '0';
+
+			$all_terms_in_tax = get_terms( array(
+				'taxonomy'      => $taxonomy,
+				'orderby'       => 'term_id',
+				'hide_empty'    => $hide_empty
+			) );
+
+			foreach ( $all_terms_in_tax as $term ) {
+
+				// Skip terms we've already reviewed
+				if ( $skip >= $term->term_id ) {
+					continue;
+				}
+
+				// Leave "Uncategorized" category alone
+				if ( 'category' === $taxonomy && 'Uncategorized' === $term->name ) {
+					continue;
+				}
+
+				$similar_terms = $this->get_similar_terms( $term, $all_terms_in_tax );
+
+				$status[ $taxonomy ] = $term->term_id;
+			}
+
+		}
+
+		update_option( 'tdc_status', $status );
+	}
+
+	/*
+	 * Review all other terms in taxonomy for similar terms
+	 */
+	public function get_similar_terms( $term, $all_terms_in_tax ) {
+
+		$similar_terms = [];
+
+		// Compare $term to every other term in the taxonomy
+		foreach( $all_terms_in_tax as $term_to_compare ) {
+
+			// Don't compare term to itself
+			if ( $term->term_id === $term_to_compare->term_id ) {
+				continue;
+			}
+
+			if ( true === $this->are_terms_similar( $term->name, $term_to_compare->name ) ) {
+				$similar_terms[] = $term_to_compare;
+			}
+		}
+
+		$this->create_recommendation( $term, $similar_terms );
+	}
+
+	public function are_terms_similar( $term, $term_to_compare ) {
+		// Calculate the Levenshtein Distance between the two terms
+		$distance = levenshtein( $term, $term_to_compare );
+
+		// Are these words similar?
+		if ( $distance >= 0 && $distance <= 2 ) {
+
+			// Do the words also sound similar?
+			if ( metaphone( $term, 2 ) === metaphone( $term_to_compare, 2 ) ) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	public function create_recommendation( $term, $similar_terms ) {
+
+		// Build array of similar terms
+		$similar_terms_array[] = $term->term_id;
+		foreach ( $similar_terms as $similar_term ) {
+			$similar_terms_array[] = $similar_term->term_id;
+		}
+
+		$existing_recommendations = get_posts( array(
+			'post_type'         => 'tdc_recommendations',
+			'posts_per_page'    => 1,
+			'offset'            => 0,
+			'tax_query'         => array(
+				array(
+					'taxonomy'          => $term->taxonomy,
+					'field'             => 'id',
+					'terms'             => $similar_terms_array
+				)
+			),
+		));
+
+		// If we have an existing recommendation that might match this one
+		if ( ! empty( $existing_recommendations ) ) {
+
+			$existing_recommendation_terms = wp_get_post_terms( $existing_recommendations[0]->ID, $term->taxonomy );
+			$existing_recommendation_terms_array = [];
+
+			// Format existing recommendation post terms into array (to match $similar_terms_array)
+			foreach ( $existing_recommendation_terms as $existing_recommendation_term ) {
+				$existing_recommendation_terms_array[] = $existing_recommendation_term->term_id;
+			}
+
+
+			// Compare existing recommendation with new recommendation
+			$missing_terms = array_diff( $existing_recommendation_terms_array, $similar_terms_array );
+			$new_terms = array_diff( $similar_terms_array, $existing_recommendation_terms_array );
+
+			// Recommendation should be off by 1 term, which is the new term we'll add to the recommendation
+			if ( 0 === count( $missing_terms ) && 1 === count( $new_terms ) && $new_terms[0] === $term->term_id ) {
+				wp_set_object_terms( $existing_recommendations[0]->ID, $term->term_id, $term->taxonomy, true );
+				return;
+			}
+
+		}
+
+		// Create post object
+		$post_arr = array(
+		  'post_title'    => 'Recommendations for ' . $term->taxonomy . ' Term ' . $term->term_id,
+		  'post_type'     => 'tdc_recommendations',
+		  'post_status'   => 'publish',
+		  'tax_input'     => array(
+			  $term->taxonomy => $similar_terms_array
+		  ),
+		);
+
+		// Insert the post into the database
+		wp_insert_post( $post_arr );
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * Returns a JSON object with some of the essential bits used in the front-end javascript
 	 *
