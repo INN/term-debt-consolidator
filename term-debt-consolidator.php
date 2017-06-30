@@ -44,6 +44,7 @@ require 'includes/class-functions.php';
 require 'includes/class-admin.php';
 require 'includes/class-suggestions.php';
 require 'includes/class-ajax.php';
+require 'includes/class-cli.php';
 
 /**
  * Main initiation class.
@@ -141,6 +142,14 @@ final class Term_Debt_Consolidator {
 	protected $post_type;
 
 	/**
+	 * Instance of TDC_Cli
+	 *
+	 * @sinceundefined
+	 * @var TDC_Cli
+	 */
+	protected $cli;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since   1.0.0
@@ -177,6 +186,7 @@ final class Term_Debt_Consolidator {
 		$this->functions = new TDC_Functions( $this );
 		$this->ajax = new TDC_Ajax( $this );
 		$this->post_type = new TDC_Post_Type( $this );
+		$this->cli = new TDC_Cli( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -350,6 +360,7 @@ final class Term_Debt_Consolidator {
 			case 'functions':
 			case 'ajax':
 			case 'post_type':
+			case 'cli':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
