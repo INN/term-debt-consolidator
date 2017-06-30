@@ -104,13 +104,13 @@ class TDC_Admin {
 	 * @since  1.0.0
 	 */
 	public function add_options_page() {
-		$this->options_page = add_menu_page(
+		$this->options_page = add_submenu_page(
+			'tools.php',
 			$this->title,
 			$this->title,
 			'edit_posts',
 			$this->key,
-			array( $this, 'admin_page_display' ),
-			'dashicons-networking'
+			array( $this, 'admin_page_display' )
 		);
 	}
 
@@ -137,7 +137,7 @@ class TDC_Admin {
 			<h2>Term Debt Consolidator Suggestions</h2>
 
 			<div class="tdc-preamble">
-				<p>Term Debt Consolidator can look at your site's tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.</p>
+				<p>Term Debt Consolidator looks at your site's tags to suggest areas for consolidation and deletion and help you identify ways to improve your use of WordPress' taxonomy functionality.</p>
 				<p>Keep in mind that this process is imperfect and may make nonsensical suggestions from time to time. It's up to you to review the suggestions and approve or deny them.</p>
 			</div>
 
