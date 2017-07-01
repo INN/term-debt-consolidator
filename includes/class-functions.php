@@ -39,7 +39,8 @@ class TDC_Functions {
 	 * @since  1.0.0
 	 */
 	public function hooks() {
-
+		add_action( 'edit_term', array( $this, 'function' ), 10, 3 );
+		add_action( 'create_term', array( $this, 'function' ), 10, 3 );
 	}
 
 	/**
@@ -79,7 +80,7 @@ class TDC_Functions {
 					continue;
 				}
 
-				$similar_terms = $this->get_similar_terms( $term, $all_terms_in_tax );
+				$this->get_similar_terms( $term, $all_terms_in_tax );
 
 				$status[ $taxonomy ] = $term->term_id;
 			}
@@ -109,6 +110,7 @@ class TDC_Functions {
 				continue;
 			}
 
+			// Add to $similar_terms array if a similarity exists
 			if ( true === $this->are_terms_similar( $term->name, $term_to_compare->name ) ) {
 				$similar_terms[] = $term_to_compare;
 			}
@@ -210,7 +212,34 @@ class TDC_Functions {
 	}
 
 	/**
-	 * @TODO check for similarities any time a term is added (new) or updated (existing)
+	 * Check single term on insert or update.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param	$term_id	int		Term ID.
+	 * @param	$tt_id		int		Term taxonomy ID.
+	 * @param	$taxonomy	str		Taxonomy slug.
+	 */
+	public function check_term( $term_id, $tt_id, $taxonomy ) {
+
+		$status = get_option( 'tdc_status' );
+		$term = get_term( $term_id, $taxonomy );
+		$all_terms_in_tax = get_terms( array(
+			'taxonomy'      => $taxonomy,
+			'orderby'       => 'term_id',
+			'hide_empty'    => $hide_empty
+		) );
+
+		$this->get_similar_terms( $term, $all_terms_in_tax );
+
+		// Update status if this is a new term ID
+		if ( $term_id < $status[ $taxonomy ] ) {
+			$status[ $taxonomy ] = $term->term_id;
+			update_option( 'tdc_status', $status );
+		}
+	}
+
+	/**
 	 * @TODO migrate functions for combining terms -> add functionality to consolidate to designated term
 	 */
 
