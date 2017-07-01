@@ -249,12 +249,35 @@ class TDC_Functions {
 	 */
 	public function merge_terms( $primary_term_id, $terms_to_merge ) {
 
+		$primary_term = get_term( $primary_term_id );
+		if ( is_wp_error( $primary_term ) ) {
+			// return error (term doesn't exist)
+		}
+
+		$terms = [];
+		if ( is_array( $terms_to_merge ) && ! empty( $terms_to_merge ) ) {
+			foreach ( $terms_to_merge as $term ) {
+				$term_obj = get_term( $term );
+				if ( is_wp_error( $term_obj ) ) {
+					// return error (term doesn't exist)
+				} elseif ( $term_obj->taxonomy !== $primary_term->taxonomy ) {
+					// return error (taxonomy doesn't match)
+				}
+
+				$terms[] = $term_obj;
+			}
+		} else {
+			// return error ($terms_to_merge not an array, or is an empty array)
+		}
+
+		foreach( $terms as $term ) {
+			/**
+			 * Merge into $primary_term
+			 * @TODO get all posts where $term is used -> remove $term and add $primary_term
+			 * @TODO delete $term
+			 */
+		}
 	}
-
-	/**
-	 * @TODO migrate functions for combining terms -> add functionality to consolidate to designated term
-	 */
-
 
 
 
