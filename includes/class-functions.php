@@ -48,7 +48,7 @@ class TDC_Functions {
 	 *
 	 * @since	1.0.0
 	 *
-	 * @param	$hide_empty		bool	Setting this variable to true will ignore terms that aren't attached to any posts
+	 * @param	$hide_empty		boo		Setting this variable to true will ignore terms that aren't attached to any posts
 	 */
 	public function review_existing_terms( $hide_empty = false ) {
 		$status = get_option( 'tdc_status' );
@@ -95,8 +95,8 @@ class TDC_Functions {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param	$term				object	object for current term
-	 * @param	$all_terms_in_tax	object	array of term object to compare to
+	 * @param	$term				obj		object for current term
+	 * @param	$all_terms_in_tax	obj		array of term object to compare to
 	 */
 	public function get_similar_terms( $term, $all_terms_in_tax ) {
 
@@ -124,8 +124,8 @@ class TDC_Functions {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param	$term				string	Term string
-	 * @param	$term_to_compare	string	Term string to compare to
+	 * @param	$term				str		Term string
+	 * @param	$term_to_compare	str		Term string to compare to
 	 */
 	public function are_terms_similar( $term, $term_to_compare ) {
 		// Calculate the Levenshtein Distance between the two terms
@@ -148,8 +148,8 @@ class TDC_Functions {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param	$term			object	Term object
-	 * @param	$similar_terms	array	Array of term ids for similar terms
+	 * @param	$term			obj		Term object
+	 * @param	$similar_terms	arr		Array of term ids for similar terms
 	 */
 	public function create_recommendation( $term, $similar_terms ) {
 
@@ -237,6 +237,18 @@ class TDC_Functions {
 			$status[ $taxonomy ] = $term->term_id;
 			update_option( 'tdc_status', $status );
 		}
+	}
+
+	/**
+	 * Merge 2 or more terms.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param	$primary_term_id	int		Primary term ID.
+	 * @param	$terms_to_merge		arr		Array of term IDs.
+	 */
+	public function merge_terms( $primary_term_id, $terms_to_merge ) {
+
 	}
 
 	/**
