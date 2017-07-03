@@ -95,11 +95,18 @@ class TDC_Admin {
 		// @TODO are these all IDs
 		$primary_term = $_POST['primary_term'];
 		$merge_terms = $_POST['merge_terms'];
+		$recommendation = $_POST['recommendation'];
 
-		// Remove primary term ID from merge set
-		unset( $missing_terms[ $primary_term ] );
+		if ( $primary_term && $merge_terms ) {
 
-		$this->functions->merge_terms( $primary_term, $merge_terms );
+			$merge_terms = explode( ',', $merge_terms );
+			$merge_terms = array_combine( $merge_terms, $merge_terms );
+
+			// Remove primary term ID from merge set
+			unset( $merge_terms[ $primary_term ] );
+
+			$merge = $this->functions->merge_terms( $primary_term, $merge_terms, $recommendation );
+		}
 
 		wp_safe_redirect( '/wp-admin/tools.php?page=term_debt_consolidator_admin' );
 

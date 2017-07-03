@@ -88,7 +88,7 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 	<input type="hidden" name="recommendation" value="' . $query->post->ID . '">
 	<input type="hidden" name="merge_terms" value="' . implode( $term_ids, ',' ) . '">
 	<select name="primary_term"><option>Select a Primary Term</option>' . implode( $term_output['action'], ' <br />' ) . '</select>
-	<input type="submit" value="Submit">
+	<input type="submit" value="Merge" class="button button-large">
 </form>';
 
 				$data[] = array(

@@ -247,7 +247,7 @@ class TDC_Functions {
 	 * @param	$primary_term_id	int		Primary term ID.
 	 * @param	$terms_to_merge		arr		Array of term IDs.
 	 */
-	public function merge_terms( $primary_term_id, $terms_to_merge ) {
+	public function merge_terms( $primary_term_id, $terms_to_merge, $recommendation_id = '' ) {
 
 		$primary_term = get_term( $primary_term_id );
 		if ( is_wp_error( $primary_term ) ) {
@@ -255,6 +255,8 @@ class TDC_Functions {
 		}
 
 		$terms = [];
+
+		// Validate variables passed to this function
 		if ( is_array( $terms_to_merge ) && ! empty( $terms_to_merge ) ) {
 			foreach ( $terms_to_merge as $term ) {
 				$term_obj = get_term( $term );
@@ -282,6 +284,7 @@ class TDC_Functions {
 			),
 		);
 		$query = new WP_Query( $args );
+
 		if ( have_posts() ) {
 			while( have_posts() ) {
 				the_post();
@@ -298,6 +301,16 @@ class TDC_Functions {
 
 		foreach ( $terms_to_merge as $term_to_delete ) {
 			wp_delete_term( $term_to_delete, $primary_term->taxonomy );
+		}
+
+		if ( intval( $recommendation_id ) ) {
+			$recommendation_post = array(
+				'ID'           => $recommendation_id,
+				'post_status'  => 'trash',
+			);
+
+			// Update the post into the database
+			wp_update_post( $recommendation_post );
 		}
 	}
 }
