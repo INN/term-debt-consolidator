@@ -86,7 +86,6 @@ class TDC_Admin {
 		// Hook in our actions to the admin.
 		add_action( 'admin_post_tdc_merge', array( $this, 'merge_request' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 	public function merge_request() {
@@ -138,28 +137,5 @@ class TDC_Admin {
             </div>
 			<?php $this->functions->review_existing_terms(); ?>
        <?php
-	}
-
-	public function enqueue_scripts() {
-		wp_register_style(
-			'tdc-common',
-			plugins_url( 'styles.css', dirname( __FILE__ ) )
-		);
-
-		wp_register_script(
-			'tdc-suggestions',
-			plugins_url( '/assets/js/suggestions.js', dirname( __FILE__ ) ),
-			array( 'underscore', 'backbone', 'jquery-ui-progressbar' ),
-			'1.0',
-			true
-		);
-
-		if ( isset( $_GET['page'] ) && 'term_debt_consolidator_admin' === $_GET['page'] ) {
-			wp_enqueue_style( 'tdc-common' );
-			wp_enqueue_script( 'backbone' );
-			wp_enqueue_script( 'underscore' );
-			wp_enqueue_script( 'jquery-ui-progressbar' );
-			wp_enqueue_script( 'tdc-suggestions' );
-		}
 	}
 }
