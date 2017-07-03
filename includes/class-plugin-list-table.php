@@ -39,17 +39,6 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->screen = get_current_screen();
-
-		$this->hooks();
-	}
-
-	/**
-	 * Initiate our hooks.
-	 *
-	 * @since  1.0.0
-	 */
-	public function hooks() {
-
 	}
 
 	/**
@@ -72,39 +61,47 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 
+				$query->the_post();
+
 				// Loop through taxonomies and get terms
 				$enabled_taxonomies = apply_filters( 'tdc_enabled_taxonomies', array( 'category', 'post_tag' ) );
 				foreach( $enabled_taxonomies as $taxonomy ) {
 
-					$query->the_post();
-
 					$terms = wp_get_post_terms( $query->post->ID, $taxonomy );
 					if ( $terms ) {
 						$term_output = [];
+						$term_ids = [];
 						foreach ( $terms as $term ) {
-							$term_output[] = '<a href="/wp-admin/term.php?taxonomy=' . $taxonomy . '&tag_ID=' . $term->term_id . '" id="term-' . $term->term_id . '">' . $term->name . '</a>';
+							$term_ids[] = $term->term_id;
+							$term_output['list'][] = '<a href="/wp-admin/term.php?taxonomy=' . $taxonomy . '&tag_ID=' . $term->term_id . '" id="term-' . $term->term_id . '">' . $term->name . '</a>';
+							$term_output['action'][] = '<option value="' . $term->term_id . '">' . $term->name . '</option>';
 						}
 						$post_terms = array(
 							'tax' => $taxonomy,
-							'terms' => implode( $term_output, ' <br />' ),
+							'terms' => implode( $term_output['list'], ' <br />' ),
 						);
 					}
 				}
+
+				$actions = '<form action="/wp-admin/admin-post.php" method="post">
+	<input type="hidden" name="action" value="tdc_merge">
+	<input type="hidden" name="recommendation" value="' . $query->post->ID . '">
+	<input type="hidden" name="merge_terms" value="' . implode( $term_ids, ',' ) . '">
+	<select name="primary_term"><option>Select a Primary Term</option>' . implode( $term_output['action'], ' <br />' ) . '</select>
+	<input type="submit" value="Submit">
+</form>';
 
 				$data[] = array(
 					'id' => $query->post->ID,
 					'taxonomy' => $post_terms['tax'],
 					'terms' => $post_terms['terms'],
-					'actions' => '<a class="primary button">Merge</a>',
+					'actions' => $actions,
 				);
 
 			}
 			wp_reset_postdata();
-		} else {
-		// no posts found
 		}
 
-//		$data = $this->table_data();
 
 
 		usort( $data, array( &$this, 'sort_data' ) );

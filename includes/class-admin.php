@@ -84,18 +84,26 @@ class TDC_Admin {
 	public function hooks() {
 
 		// Hook in our actions to the admin.
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_post_tdc_merge', array( $this, 'merge_request' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
-	/**
-	 * Process actions
-	 *
-	 * @since  1.0.0
-	 */
-	public function admin_init() {
-		// Process actions here
+	public function merge_request() {
+		// @TODO add nonce validation
+
+		// @TODO add sanitization here
+		// @TODO are these all IDs
+		$primary_term = $_POST['primary_term'];
+		$merge_terms = $_POST['merge_terms'];
+
+		// Remove primary term ID from merge set
+		unset( $missing_terms[ $primary_term ] );
+
+		$this->functions->merge_terms( $primary_term, $merge_terms );
+
+		wp_safe_redirect( '/wp-admin/tools.php?page=term_debt_consolidator_admin' );
+
 	}
 
 	/**

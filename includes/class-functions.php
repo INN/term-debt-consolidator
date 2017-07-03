@@ -270,12 +270,34 @@ class TDC_Functions {
 			// return error ($terms_to_merge not an array, or is an empty array)
 		}
 
-		foreach( $terms as $term ) {
-			/**
-			 * Merge into $primary_term
-			 * @TODO get all posts where $term is used -> remove $term and add $primary_term
-			 * @TODO delete $term
-			 */
+		$args = array(
+			'post_type' => 'post',
+			'tax_query' => array(
+				array(
+					'taxonomy' => $primary_term->taxonomy,
+					'field'    => 'id',
+					'terms'    => $terms_to_merge,
+					'operator' => 'IN',
+				),
+			),
+		);
+		$query = new WP_Query( $args );
+		if ( have_posts() ) {
+			while( have_posts() ) {
+				the_post();
+				$post_terms = wp_get_post_terms( $post->ID, $primary_term->taxonomy );
+				foreach ( $post_terms as $key => $term ) {
+					if ( $term->term_id !== $primary_term_id && in_array( $term->term_id, $terms_to_merge ) ) {
+						unset( $post_term[ $key ] );
+					}
+				}
+				wp_set_post_terms( $post->ID, $post_terms, $primary_term->taxonomy );
+			}
+		}
+		rewind_posts();
+
+		foreach ( $terms_to_merge as $term_to_delete ) {
+			wp_delete_term( $term_to_delete, $primary_term->taxonomy );
 		}
 	}
 
