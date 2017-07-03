@@ -45,6 +45,13 @@ require 'includes/class-admin.php';
 require 'includes/class-suggestions.php';
 require 'includes/class-ajax.php';
 require 'includes/class-cli.php';
+if ( ! class_exists( 'WP_List_Table' ) ) {
+    require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/class-wp-screen.php';
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/screen.php';
+	require 'includes/class-wp-list-table.php';
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/template.php';
+}
+require 'includes/class-plugin-list-table.php';
 
 /**
  * Main initiation class.
@@ -150,6 +157,14 @@ final class Term_Debt_Consolidator {
 	protected $cli;
 
 	/**
+	 * Instance of TDC_Plugin_List_Table
+	 *
+	 * @since1.0.0
+	 * @var TDC_Plugin_List_Table
+	 */
+	protected $plugin_list_table;
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since   1.0.0
@@ -187,6 +202,7 @@ final class Term_Debt_Consolidator {
 		$this->ajax = new TDC_Ajax( $this );
 		$this->post_type = new TDC_Post_Type( $this );
 		$this->cli = new TDC_Cli( $this );
+		$this->plugin_list_table = new TDC_Plugin_List_Table( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -361,6 +377,7 @@ final class Term_Debt_Consolidator {
 			case 'ajax':
 			case 'post_type':
 			case 'cli':
+			case 'plugin_list_table':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
