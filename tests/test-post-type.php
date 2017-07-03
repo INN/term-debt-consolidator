@@ -1,11 +1,11 @@
 <?php
 /**
- * Term_Debt_Consolidator.
+ * Term Debt Consolidator Post Type Tests.
  *
  * @since   1.0.0
  * @package Term_Debt_Consolidator
  */
-class Term_Debt_Consolidator_Test extends WP_UnitTestCase {
+class TDC_Post_Type_Test extends WP_UnitTestCase {
 
 	/**
 	 * Test if our class exists.
@@ -13,16 +13,16 @@ class Term_Debt_Consolidator_Test extends WP_UnitTestCase {
 	 * @since  1.0.0
 	 */
 	function test_class_exists() {
-		$this->assertTrue( class_exists( 'Term_Debt_Consolidator') );
+		$this->assertTrue( class_exists( 'TDC_Post_Type' ) );
 	}
 
 	/**
-	 * Test that our main helper function is an instance of our class.
+	 * Test that we can access our class through our helper function.
 	 *
 	 * @since  1.0.0
 	 */
-	function test_get_instance() {
-		$this->assertInstanceOf(  'Term_Debt_Consolidator', term_debt_consolidator() );
+	function test_class_access() {
+		$this->assertInstanceOf( 'TDC_Post_Type', term_debt_consolidator()->post-type );
 	}
 
 	/**

@@ -1,11 +1,11 @@
 <?php
 /**
- * Term Debt Consolidator Ajax Tests.
+ * Term Debt Consolidator Plugin List Table Tests.
  *
  * @since   1.0.0
  * @package Term_Debt_Consolidator
  */
-class TDC_Ajax_Test extends WP_UnitTestCase {
+class TDC_Plugin_List_Table_Test extends WP_UnitTestCase {
 
 	/**
 	 * Test if our class exists.
@@ -13,7 +13,7 @@ class TDC_Ajax_Test extends WP_UnitTestCase {
 	 * @since  1.0.0
 	 */
 	function test_class_exists() {
-		$this->assertTrue( class_exists( 'TDC_Ajax' ) );
+		$this->assertTrue( class_exists( 'TDC_Plugin_List_Table' ) );
 	}
 
 	/**
@@ -22,7 +22,7 @@ class TDC_Ajax_Test extends WP_UnitTestCase {
 	 * @since  1.0.0
 	 */
 	function test_class_access() {
-		$this->assertInstanceOf( 'TDC_Ajax', term_debt_consolidator()->ajax );
+		$this->assertInstanceOf( 'TDC_Plugin_List_Table', term_debt_consolidator()->plugin_list_table );
 	}
 
 	/**

@@ -39,10 +39,17 @@
 
 
 // Include additional php files here.
+require 'includes/class-post-type.php';
 require 'includes/class-functions.php';
 require 'includes/class-admin.php';
-require 'includes/class-suggestions.php';
-require 'includes/class-ajax.php';
+require 'includes/class-cli.php';
+if ( ! class_exists( 'WP_List_Table' ) ) {
+    require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/class-wp-screen.php';
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/screen.php';
+	require 'includes/class-wp-list-table.php';
+	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/template.php';
+}
+require 'includes/class-plugin-list-table.php';
 
 /**
  * Main initiation class.
@@ -108,14 +115,6 @@ final class Term_Debt_Consolidator {
 	protected $admin;
 
 	/**
-	 * Instance of TDC_Suggestions
-	 *
-	 * @since1.0.0
-	 * @var TDC_Suggestions
-	 */
-	protected $suggestions;
-
-	/**
 	 * Instance of TDC_Functions
 	 *
 	 * @since1.0.0
@@ -124,12 +123,28 @@ final class Term_Debt_Consolidator {
 	protected $functions;
 
 	/**
-	 * Instance of TDC_Ajax
+	 * Instance of TDC_Post_Type
 	 *
 	 * @since1.0.0
-	 * @var TDC_Ajax
+	 * @var TDC_Post_Type
 	 */
-	protected $ajax;
+	protected $post_type;
+
+	/**
+	 * Instance of TDC_Cli
+	 *
+	 * @sinceundefined
+	 * @var TDC_Cli
+	 */
+	protected $cli;
+
+	/**
+	 * Instance of TDC_Plugin_List_Table
+	 *
+	 * @since1.0.0
+	 * @var TDC_Plugin_List_Table
+	 */
+	protected $plugin_list_table;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -164,9 +179,10 @@ final class Term_Debt_Consolidator {
 	public function plugin_classes() {
 
 		$this->admin = new TDC_Admin( $this );
-		$this->suggestions = new TDC_Suggestions( $this );
 		$this->functions = new TDC_Functions( $this );
-		$this->ajax = new TDC_Ajax( $this );
+		$this->post_type = new TDC_Post_Type( $this );
+		$this->cli = new TDC_Cli( $this );
+		$this->plugin_list_table = new TDC_Plugin_List_Table( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
@@ -195,6 +211,7 @@ final class Term_Debt_Consolidator {
 
 		global $wpdb;
 
+		// @TODO remove
 		$dismissed_suggestions_table = $wpdb->prefix . "tdc_dismissed_suggestions";
 
 		$result = $wpdb->query("
@@ -336,9 +353,10 @@ final class Term_Debt_Consolidator {
 			case 'url':
 			case 'path':
 			case 'admin':
-			case 'suggestions':
 			case 'functions':
-			case 'ajax':
+			case 'post_type':
+			case 'cli':
+			case 'plugin_list_table':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
