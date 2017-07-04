@@ -39,8 +39,8 @@ class TDC_Functions {
 	 * @since  1.0.0
 	 */
 	public function hooks() {
-		add_action( 'edit_term', array( $this, 'function' ), 10, 3 );
-		add_action( 'create_term', array( $this, 'function' ), 10, 3 );
+		add_action( 'edit_term', array( $this, 'check_term' ), 10, 3 );
+		add_action( 'create_term', array( $this, 'check_term' ), 10, 3 );
 	}
 
 	/**
@@ -116,7 +116,9 @@ class TDC_Functions {
 			}
 		}
 
-		$this->create_recommendation( $term, $similar_terms );
+		if ( 0 < count( $similar_terms ) ) {
+			$this->create_recommendation( $term, $similar_terms );
+		}
 	}
 
 	/**
@@ -201,17 +203,17 @@ class TDC_Functions {
 
 		// Create post object
 		$post_arr = array(
-		  'post_title'    => 'Recommendations for ' . $term->taxonomy . ' Term ' . $term->term_id,
-		  'post_type'     => 'tdc_recommendations',
-		  'post_status'   => 'publish',
-		  'tax_input'     => array(
-			  $term->taxonomy => $similar_terms_array
-		  ),
+			'post_title'    => 'Recommendations for ' . $term->taxonomy . ' Term ' . $term->term_id,
+			'post_content'  => '',
+			'post_type'     => 'tdc_recommendations',
+			'post_status'   => 'publish',
+			'tax_input'     => array(
+				$term->taxonomy => $similar_terms_array,
+			),
 		);
 
 		// Insert the post into the database
 		wp_insert_post( $post_arr );
-
 	}
 
 	/**
@@ -223,14 +225,14 @@ class TDC_Functions {
 	 * @param	$tt_id		int		Term taxonomy ID.
 	 * @param	$taxonomy	str		Taxonomy slug.
 	 */
-	public function check_term( $term_id, $tt_id, $taxonomy ) {
+	public function check_term( $term_id, $tt_id, $taxonomy, $hide_empty = '' ) {
 
 		$status = get_option( 'tdc_status' );
 		$term = get_term( $term_id, $taxonomy );
 		$all_terms_in_tax = get_terms( array(
 			'taxonomy'      => $taxonomy,
 			'orderby'       => 'term_id',
-			'hide_empty'    => $hide_empty
+			'hide_empty'    => $hide_empty,
 		) );
 
 		$this->get_similar_terms( $term, $all_terms_in_tax );
@@ -254,7 +256,7 @@ class TDC_Functions {
 
 		$primary_term = get_term( $primary_term_id );
 		if ( is_wp_error( $primary_term ) ) {
-			// return error (term doesn't exist)
+			//  @TODO return error (term doesn't exist)
 		}
 
 		$terms = [];
@@ -264,15 +266,15 @@ class TDC_Functions {
 			foreach ( $terms_to_merge as $term ) {
 				$term_obj = get_term( $term );
 				if ( is_wp_error( $term_obj ) ) {
-					// return error (term doesn't exist)
+					//  @TODO return error (term doesn't exist)
 				} elseif ( $term_obj->taxonomy !== $primary_term->taxonomy ) {
-					// return error (taxonomy doesn't match)
+					//  @TODO return error (taxonomy doesn't match)
 				}
 
 				$terms[] = $term_obj;
 			}
 		} else {
-			// return error ($terms_to_merge not an array, or is an empty array)
+			// @TODO return error ($terms_to_merge not an array, or is an empty array)
 		}
 
 		$args = array(

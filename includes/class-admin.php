@@ -142,7 +142,6 @@ class TDC_Admin {
 				<h2>Term Consolidation Suggestions</h2>
                 <?php $recommendations->display(); ?>
             </div>
-			<?php $this->functions->review_existing_terms(); ?>
        <?php
 	}
 }

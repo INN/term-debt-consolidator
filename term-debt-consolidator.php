@@ -43,11 +43,12 @@ require 'includes/class-post-type.php';
 require 'includes/class-functions.php';
 require 'includes/class-admin.php';
 require 'includes/class-cli.php';
-if ( ! class_exists( 'WP_List_Table' ) ) {
-    require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/class-wp-screen.php';
+
+if ( ! function_exists( 'get_column_headers' ) ) {
 	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/screen.php';
+}
+if ( ! class_exists( 'WP_List_Table' ) ) {
 	require 'includes/class-wp-list-table.php';
-	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/template.php';
 }
 require 'includes/class-plugin-list-table.php';
 
@@ -209,12 +210,14 @@ final class Term_Debt_Consolidator {
 			return;
 		}
 
-		global $wpdb;
+		$this->functions = new TDC_Functions( $this );
+		$this->functions->review_existing_terms();
 
 		// @TODO remove
 		/*
 		$dismissed_suggestions_table = $wpdb->prefix . "tdc_dismissed_suggestions";
 
+		global $wpdb;
 		$result = $wpdb->query("
 			CREATE TABLE IF NOT EXISTS `" . $dismissed_suggestions_table . "` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
@@ -239,6 +242,7 @@ final class Term_Debt_Consolidator {
 		// Add deactivation cleanup functionality here.
 		global $wpdb;
 		$wpdb->delete( 'wp_posts', array( 'post_type' => 'tdc_recommendations' ) );
+		delete_option( 'tdc_status' );
 	}
 
 	/**
