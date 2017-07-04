@@ -66,8 +66,32 @@ class TDC_Cli {
 	public function status() {
 		WP_CLI::line( WP_CLI::colorize( "%pTerm Debt Consolidator%n" ) );
 		WP_CLI::line( WP_CLI::colorize( "%yEnabled taxonomies: %n" ) . implode( apply_filters( 'tdc_enabled_taxonomies', array( 'category', 'post_tag' ) ), ', ' ) );
-		WP_CLI::line( 'Here we go!' );
 
+		$processed = get_option( 'tdc_status' );
+
+		$items = [];
+		foreach ( $processed as $taxonomy => $status ) {
+			$terms = get_terms( array(
+			    'taxonomy' => $taxonomy,
+			    'hide_empty' => false,
+				'orderby' => 'term_id',
+			) );
+			$total = count( $terms );
+
+			$count = 0;
+			foreach ( $terms as $term ) {
+				if ( $count < $term->term_id ) {
+					$count++;
+				}
+			}
+
+			$items[] = array(
+				'taxonomy'  => $taxonomy,
+				'status'    => 'Processed ' . $count . ' of ' . $total . ' terms',
+			);
+		}
+
+		WP_CLI\Utils\format_items( 'table', $items, array( 'taxonomy', 'status' ) );
 		/**
 		 * IDEAS:
 		 * @TODO Processed 25 of 50 categories (50%)
