@@ -135,6 +135,14 @@ class TDC_Admin {
 	 */
 	public function admin_page_display() {
 
+		if ( ! function_exists( 'get_column_headers' ) ) {
+			require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/screen.php';
+		}
+		if ( ! class_exists( 'WP_List_Table' ) ) {
+			require 'includes/class-wp-list-table.php';
+		}
+		require 'includes/class-plugin-list-table.php';
+
 		$recommendations = new TDC_Plugin_List_Table( $this->plugin );
         $recommendations->prepare_items();
         ?>
