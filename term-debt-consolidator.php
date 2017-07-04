@@ -44,14 +44,6 @@ require 'includes/class-functions.php';
 require 'includes/class-admin.php';
 require 'includes/class-cli.php';
 
-if ( ! function_exists( 'get_column_headers' ) ) {
-	require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/screen.php';
-}
-if ( ! class_exists( 'WP_List_Table' ) ) {
-	require 'includes/class-wp-list-table.php';
-}
-require 'includes/class-plugin-list-table.php';
-
 /**
  * Main initiation class.
  *
@@ -183,7 +175,6 @@ final class Term_Debt_Consolidator {
 		$this->functions = new TDC_Functions( $this );
 		$this->post_type = new TDC_Post_Type( $this );
 		$this->cli = new TDC_Cli( $this );
-		$this->plugin_list_table = new TDC_Plugin_List_Table( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**
