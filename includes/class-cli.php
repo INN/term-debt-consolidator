@@ -67,8 +67,17 @@ class TDC_Cli {
 		WP_CLI::line( WP_CLI::colorize( "%pTerm Debt Consolidator%n" ) );
 		WP_CLI::line( WP_CLI::colorize( "%yEnabled taxonomies: %n" ) . implode( apply_filters( 'tdc_enabled_taxonomies', array( 'category', 'post_tag' ) ), ', ' ) );
 
-		$processed = get_option( 'tdc_status' );
+		// Get # of recommendations
+		$existing_recommendations = get_posts( array(
+			'post_type'         => 'tdc_recommendations',
+			'posts_per_page'    => 0,
+			'offset'            => 0,
+		));
 
+		WP_CLI::line( WP_CLI::colorize( "%y" . count( $existing_recommendations ) . " Recommendations%n" ) );
+
+		// Get the status of processed taxonomies
+		$processed = get_option( 'tdc_status' );
 		$items = [];
 		foreach ( $processed as $taxonomy => $status ) {
 			$terms = get_terms( array(
@@ -92,12 +101,6 @@ class TDC_Cli {
 		}
 
 		WP_CLI\Utils\format_items( 'table', $items, array( 'taxonomy', 'status' ) );
-		/**
-		 * IDEAS:
-		 * @TODO Processed 25 of 50 categories (50%)
-		 * @TODO 34 Recommendations
-		 * @TODO 12 Dismissed Recommendations
-		 */
 	}
 
 	/**
