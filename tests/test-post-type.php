@@ -22,7 +22,7 @@ class TDC_Post_Type_Test extends WP_UnitTestCase {
 	 * @since  1.0.0
 	 */
 	function test_class_access() {
-		$this->assertInstanceOf( 'TDC_Post_Type', term_debt_consolidator()->post-type );
+		$this->assertInstanceOf( 'TDC_Post_Type', term_debt_consolidator()->post_type );
 	}
 
 	/**
