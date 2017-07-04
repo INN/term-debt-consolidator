@@ -100,20 +100,18 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 
 			}
 			wp_reset_postdata();
+
+			usort( $data, array( &$this, 'sort_data' ) );
+			$currentPage = $this->get_pagenum();
+			$totalItems = count( $data );
+			$this->set_pagination_args( array(
+				'total_items' => $totalItems,
+				'per_page'    => $per_page,
+			) );
+			$data = array_slice( $data, ( ( $currentPage - 1 ) * $per_page ), $per_page );
+			$this->_column_headers = array( $columns, $hidden, $sortable );
+			$this->items = $data;
 		}
-
-
-
-		usort( $data, array( &$this, 'sort_data' ) );
-		$currentPage = $this->get_pagenum();
-		$totalItems = count( $data );
-		$this->set_pagination_args( array(
-			'total_items' => $totalItems,
-			'per_page'    => $per_page,
-		) );
-		$data = array_slice( $data, ( ( $currentPage - 1 ) * $per_page ), $per_page );
-		$this->_column_headers = array( $columns, $hidden, $sortable );
-		$this->items = $data;
 	}
 	/**
 	 * Override the parent columns method. Defines the columns to use in your listing table
