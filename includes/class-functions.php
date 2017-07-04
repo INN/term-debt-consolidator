@@ -128,6 +128,9 @@ class TDC_Functions {
 	 * @param	$term_to_compare	str		Term string to compare to
 	 */
 	public function are_terms_similar( $term, $term_to_compare ) {
+
+		$similarity = false;
+
 		// Calculate the Levenshtein Distance between the two terms
 		$distance = levenshtein( $term, $term_to_compare );
 
@@ -136,10 +139,10 @@ class TDC_Functions {
 
 			// Do the words also sound similar?
 			if ( metaphone( $term, 2 ) === metaphone( $term_to_compare, 2 ) ) {
-				return true;
+				$similarity = true;
 			}
 		}
-		return false;
+		return apply_filters( 'tdc_are_terms_similar', $similarity, $term, $term_to_compare );
 
 	}
 
