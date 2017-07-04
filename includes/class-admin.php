@@ -139,9 +139,9 @@ class TDC_Admin {
 			require dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . '/wp-admin/includes/screen.php';
 		}
 		if ( ! class_exists( 'WP_List_Table' ) ) {
-			require 'includes/class-wp-list-table.php';
+			require_once( 'class-wp-list-table.php' );
 		}
-		require 'includes/class-plugin-list-table.php';
+		require_once( 'class-plugin-list-table.php' );
 
 		$recommendations = new TDC_Plugin_List_Table( $this->plugin );
         $recommendations->prepare_items();
