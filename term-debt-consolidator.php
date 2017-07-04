@@ -237,6 +237,8 @@ final class Term_Debt_Consolidator {
 	 */
 	public function _deactivate() {
 		// Add deactivation cleanup functionality here.
+		global $wpdb;
+		$wpdb->delete( 'wp_posts', array( 'post_type' => 'tdc_recommendations' ) );
 	}
 
 	/**
