@@ -30,7 +30,53 @@ class TDC_Functions_Test extends WP_UnitTestCase {
 	 *
 	 * @since  1.0.0
 	 */
-	function test_sample() {
+	function test_review_existing_terms() {
 		$this->assertTrue( true );
 	}
+
+	/**
+	 * Replace this with some actual testing code.
+	 *
+	 * @since  1.0.0
+	 */
+	function test_get_similar_terms() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Replace this with some actual testing code.
+	 *
+	 * @since  1.0.0
+	 */
+	function test_are_terms_similar() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Replace this with some actual testing code.
+	 *
+	 * @since  1.0.0
+	 */
+	function test_create_recommendation() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Replace this with some actual testing code.
+	 *
+	 * @since  1.0.0
+	 */
+	function test_check_term() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Replace this with some actual testing code.
+	 *
+	 * @since  1.0.0
+	 */
+	function test_merge_terms() {
+		$this->assertTrue( true );
+	}
+
 }
