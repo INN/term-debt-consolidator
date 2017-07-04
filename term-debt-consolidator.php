@@ -212,6 +212,7 @@ final class Term_Debt_Consolidator {
 		global $wpdb;
 
 		// @TODO remove
+		/*
 		$dismissed_suggestions_table = $wpdb->prefix . "tdc_dismissed_suggestions";
 
 		$result = $wpdb->query("
@@ -222,6 +223,7 @@ final class Term_Debt_Consolidator {
 				PRIMARY KEY (`id`),
 				UNIQUE KEY `term_id` (`term_id`)
 			) ENGINE=InnoDB;");
+		*/
 
 		// Make sure any rewrite functionality has been loaded.
 		flush_rewrite_rules();
