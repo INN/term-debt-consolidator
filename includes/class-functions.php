@@ -100,7 +100,7 @@ class TDC_Functions {
 	 */
 	public function get_similar_terms( $term, $all_terms_in_tax ) {
 
-		$similar_terms = [];
+		$similar_terms = array();
 
 		// Compare $term to every other term in the taxonomy
 		foreach( $all_terms_in_tax as $term_to_compare ) {
@@ -181,7 +181,7 @@ class TDC_Functions {
 		if ( ! empty( $existing_recommendations ) ) {
 
 			$existing_recommendation_terms = wp_get_post_terms( $existing_recommendations[0]->ID, $term->taxonomy );
-			$existing_recommendation_terms_array = [];
+			$existing_recommendation_terms_array = array();
 
 			// Format existing recommendation post terms into array (to match $similar_terms_array)
 			foreach ( $existing_recommendation_terms as $existing_recommendation_term ) {
@@ -259,7 +259,7 @@ class TDC_Functions {
 			//  @TODO return error (term doesn't exist)
 		}
 
-		$terms = [];
+		$terms = array();
 
 		// Validate variables passed to this function
 		if ( is_array( $terms_to_merge ) && ! empty( $terms_to_merge ) ) {

@@ -69,8 +69,8 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 
 					$terms = wp_get_post_terms( $query->post->ID, $taxonomy );
 					if ( $terms ) {
-						$term_output = [];
-						$term_ids = [];
+						$term_output = array();
+						$term_ids = array();
 						foreach ( $terms as $term ) {
 							$term_ids[] = $term->term_id;
 							$term_output['list'][] = '<a href="/wp-admin/term.php?taxonomy=' . $taxonomy . '&tag_ID=' . $term->term_id . '" id="term-' . $term->term_id . '">' . $term->name . '</a>';
