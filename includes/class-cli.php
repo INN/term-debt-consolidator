@@ -78,7 +78,7 @@ class TDC_Cli {
 
 		// Get the status of processed taxonomies
 		$processed = get_option( 'tdc_status' );
-		$items = [];
+		$items = array();
 		foreach ( $processed as $taxonomy => $status ) {
 			$terms = get_terms( array(
 			    'taxonomy' => $taxonomy,
