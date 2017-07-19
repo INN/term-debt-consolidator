@@ -32,6 +32,7 @@ class TDC_Functions_Test extends WP_UnitTestCase {
 	 */
 	function test_review_existing_terms() {
 		$this->assertTrue( true );
+		// @TODO test does it create the right # of recommendations
 	}
 
 	/**
@@ -59,6 +60,9 @@ class TDC_Functions_Test extends WP_UnitTestCase {
 	 */
 	function test_create_recommendation() {
 		$this->assertTrue( true );
+		// @TODO test creating a recommendation
+		// @TODO test creating a similar recommendation (do they merge?)
+		// @TODO test that the right number of recommendations are added
 	}
 
 	/**
