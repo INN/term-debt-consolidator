@@ -49,6 +49,7 @@ class TDC_Functions {
 	 * @since	1.0.0
 	 *
 	 * @param	boolean	$hide_empty		Setting this variable to true will ignore terms that aren't attached to any posts.
+	 * @param	$hide_empty		boo		Setting this variable to true will ignore terms that aren't attached to any posts
 	 */
 	public function review_existing_terms( $hide_empty = false ) {
 		$status = get_option( 'tdc_status' );
