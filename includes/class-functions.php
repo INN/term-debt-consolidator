@@ -49,7 +49,6 @@ class TDC_Functions {
 	 * @since	1.0.0
 	 *
 	 * @param	boolean	$hide_empty		Setting this variable to true will ignore terms that aren't attached to any posts.
-	 * @param	$hide_empty		boo		Setting this variable to true will ignore terms that aren't attached to any posts
 	 */
 	public function review_existing_terms( $hide_empty = false ) {
 		$status = get_option( 'tdc_status' );
@@ -80,7 +79,10 @@ class TDC_Functions {
 					continue;
 				}
 
-				$this->get_similar_terms( $term, $all_terms_in_tax );
+				$similar_terms = $this->get_similar_terms( $term, $all_terms_in_tax );
+				if ( 0 < count( $similar_terms ) ) {
+					$this->create_recommendation( $term, $similar_terms );
+				}
 
 				$status[ $taxonomy ] = $term->term_id;
 			}
@@ -95,7 +97,7 @@ class TDC_Functions {
 	 * @since 1.0.0
 	 *
 	 * @param	object $term				object for current term.
-	 * @param	object $all_terms_in_tax	array of term object to compare to.
+	 * @param	object $all_terms_in_tax	array of term objects to compare to.
 	 */
 	public function get_similar_terms( $term, $all_terms_in_tax ) {
 
@@ -104,7 +106,7 @@ class TDC_Functions {
 		// Compare $term to every other term in the taxonomy.
 		foreach ( $all_terms_in_tax as $term_to_compare ) {
 
-			// Don't compare term to itself.
+			// Don't compare the term to itself.
 			if ( $term->term_id === $term_to_compare->term_id ) {
 				continue;
 			}
@@ -115,9 +117,7 @@ class TDC_Functions {
 			}
 		}
 
-		if ( 0 < count( $similar_terms ) ) {
-			$this->create_recommendation( $term, $similar_terms );
-		}
+		return $similar_terms;
 	}
 
 	/**
@@ -233,7 +233,10 @@ class TDC_Functions {
 			'hide_empty'    => $hide_empty,
 		) );
 
-		$this->get_similar_terms( $term, $all_terms_in_tax );
+		$similar_terms = $this->get_similar_terms( $term, $all_terms_in_tax );
+		if ( 0 < count( $similar_terms ) ) {
+			$this->create_recommendation( $term, $similar_terms );
+		}
 
 		// Update status if this is a new term ID.
 		if ( $term_id < $status[ $taxonomy ] ) {
