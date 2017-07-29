@@ -126,7 +126,7 @@ class TDC_Functions {
 	 * @since 1.0.0
 	 *
 	 * @param	string $term				Term string.
-	 * @param	string $term_to_compare	Term string to compare to.
+	 * @param	string $term_to_compare		Term string to compare to.
 	 */
 	public function are_terms_similar( $term, $term_to_compare ) {
 

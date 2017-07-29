@@ -65,12 +65,14 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 
 				// Loop through taxonomies and get terms
 				$enabled_taxonomies = apply_filters( 'tdc_enabled_taxonomies', array( 'category', 'post_tag' ) );
+
+				$term_output = array();
+				$term_ids = array();
+
 				foreach( $enabled_taxonomies as $taxonomy ) {
 
 					$terms = wp_get_post_terms( $query->post->ID, $taxonomy );
 					if ( $terms ) {
-						$term_output = array();
-						$term_ids = array();
 						foreach ( $terms as $term ) {
 							$term_ids[] = $term->term_id;
 							$term_output['list'][] = '<a href="/wp-admin/term.php?taxonomy=' . $taxonomy . '&tag_ID=' . $term->term_id . '" id="term-' . $term->term_id . '">' . $term->name . '</a>';
@@ -81,6 +83,10 @@ class TDC_Plugin_List_Table extends WP_List_Table {
 							'terms' => implode( $term_output['list'], ' <br />' ),
 						);
 					}
+				}
+
+				if ( 0 === count( $term_ids ) ) {
+					continue;
 				}
 
 				$actions = '<form action="/wp-admin/admin-post.php" method="post">
