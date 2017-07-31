@@ -85,6 +85,8 @@ class TDC_Functions_Test extends WP_UnitTestCase {
 
 		// Compound words.
 		$this->assertTrue( $functions->are_terms_similar( 'hot dog', 'hotdog' ) );
+		$this->assertTrue( $functions->are_terms_similar( 'hot dog', 'hotdogs' ) );
+		$this->assertTrue( $functions->are_terms_similar( 'hot dog', 'hotdogz' ) );
 
 		// Trailing or preceding numbers or dates.
 		$this->assertFalse( $functions->are_terms_similar( 'election', 'election 2016' ) );
@@ -102,10 +104,50 @@ class TDC_Functions_Test extends WP_UnitTestCase {
 	 * @since  1.0.0
 	 */
 	function test_create_recommendation() {
-		$this->assertTrue( true );
-		// @TODO test creating a recommendation
-		// @TODO test creating a similar recommendation (do they merge?)
-		// @TODO test that the right number of recommendations are added
+		$functions = new TDC_Functions( $this );
+
+		// Setup a few terms.
+		$term_a = wp_create_term( 'hot dog', 'post_tag' );
+		$term_a_obj = get_term( $term_a['term_id'], 'post_tag' );
+
+		$term_b = wp_create_term( 'hotdog', 'post_tag' );
+		$term_b_obj = get_term( $term_b['term_id'], 'post_tag' );
+
+		$term_c = wp_create_term( 'hotdogs', 'post_tag' );
+		$term_c_obj = get_term( $term_c['term_id'], 'post_tag' );
+
+		$original_recommendations = get_posts( array(
+			'post_type'         => 'tdc_recommendations',
+			'posts_per_page'    => -1,
+			'offset'            => 0,
+		));
+
+		// Create a recommendation.
+		$functions->create_recommendation( $term_a_obj, array( $term_b_obj, $term_c_obj ) );
+
+		// Get all recommendations.
+		$recommendations = get_posts( array(
+			'post_type'         => 'tdc_recommendations',
+			'posts_per_page'    => -1,
+			'offset'            => 0,
+		));
+
+		// There should be 1 new recommendation
+		$this->assertEquals( count( $original_recommendations ) + 1, count( $recommendations ) );
+
+		// Creating this term will automatically create a new recommendation
+		$term_d = wp_create_term( 'hotdogz', 'post_tag' );
+		$term_d_obj = get_term( $term_c['term_id'], 'post_tag' );
+
+		// Get all recommendations.
+		$recommendations_2 = get_posts( array(
+			'post_type'         => 'tdc_recommendations',
+			'posts_per_page'    => -1,
+			'offset'            => 0,
+		));
+
+		// There should be 1 new recommendation
+		$this->assertEquals( count( $recommendations ), count( $recommendations_2 ) );
 	}
 
 	/**
